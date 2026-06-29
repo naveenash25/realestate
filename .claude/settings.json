@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\owner-connect-hifi\" -Recurse -Force)",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "Bash(Sort-Object)",
+      "Bash(dir \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\owner-connect-hifi\" /s /b)",
+      "Bash(Test-Path \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\owner-connect-hifi\")",
+      "Bash(Test-Path \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\")",
+      "Bash(Get-ChildItem \"c:\\\\Users\\\\satti.naveen\\\\Documents\" -Directory)",
+      "Bash(Select-Object -ExpandProperty Name)"
+    ]
+  }
+}

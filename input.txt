@@ -1,0 +1,33 @@
+*each lead can get discount directly from property owner*
+
+no broker - subscription for real estate 60k/month
+register / verify with employee, initial days any level okay, later only higer level
+for property owners: 
+employee or representative with id can register property, authorised candidate can register property, initial days, our management trainee will get registrations
+- property owner verification is required
+- only verified is allowed to show properties
+-one owner can have multiple properties
+- image based(10 image per property) and video (intial days intagram reels and youtube links )
+---------------------------------
+each lead - charged
+no lead no charge to property owner
+converted lead - nothing extra
+lead notification in real-time, only recharged owners will be able to see leads
+minimun recharge is 500 rs till first 1000 properties
+maximum leads per day with respective to each listing
+prepaid -> wallet , display plots or property else dont show up to 3 leads 
+upto 3 leads listing will show all properties if no balance 
+each lead will be charged real time and with charge + taxes
+
+website should be capable to run ads in other sites like meta, marketplace , google
+---------------
+lead prices separate for each type of property
+charge of lead changes based on location(metro, tier 1, non tier) , property value (plot, flats, villa (simplex, duplex, triplex), resort ), and RERA approval
+and non approval,pre launch (be cautious give note to customer)
+login - google login, only mobile otp login
+before login project details
+after login - user can enquire, 
+user:
+- user cant see the property owner contact details before submitting the equire
+--------------------
+for each enquire we have to save in table with time, property, phone number and date

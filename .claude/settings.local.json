@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell([System.IO.Directory]::GetFileSystemEntries\\(\"C:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\"\\))",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\backend\\\\src\\\\database\\\\migrations\\\\\" -File | ForEach-Object { $_.FullName })",
+      "Bash(dir)",
+      "PowerShell(Get-Content *)",
+      "PowerShell(psql *)",
+      "Bash(findstr /E \"tailwind|next.config\")",
+      "Bash(npm run *)",
+      "Bash(npx tsc *)",
+      "PowerShell(Set-Location \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\backend\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"Set-Location 'c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\backend'; npm run start:dev\" -WindowStyle Normal)",
+      "PowerShell(Set-Location \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\frontend\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"Set-Location 'c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\frontend'; npm run dev\" -WindowStyle Normal)"
+    ]
+  }
+}

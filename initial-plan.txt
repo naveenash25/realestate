@@ -1,0 +1,394 @@
+ Here is Claude's plan:
+╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌╌
+ Real Estate Platform — Requirements & Architecture Plan
+
+ Context
+
+ A no-middleman, direct-to-owner real estate lead generation platform for India.
+ Listing is free. Property owners only pay per genuine buyer enquiry — no
+ subscription, no lock-in. Buyers contact owners directly and can negotiate discounts
+  without any agent in between.
+
+ ---
+ Business Model
+
+ Strategy: No middleman, no subscription — pure pay-per-lead. Listing a property is
+ free. Owners only pay when genuine buyer enquiries come in.
+
+ ┌──────────────────┬──────────────────────────────────────────────────────┐
+ │      Layer       │                        Detail                        │
+ ├──────────────────┼──────────────────────────────────────────────────────┤
+ │ Listing fee      │ Free — anyone verified can list                      │
+ ├──────────────────┼──────────────────────────────────────────────────────┤
+ │ Lead charge      │ Prepaid wallet, charged per lead in real-time (+GST) │
+ ├──────────────────┼──────────────────────────────────────────────────────┤
+ │ Minimum recharge │ ₹500 (until first 1,000 properties onboarded)        │
+ ├──────────────────┼──────────────────────────────────────────────────────┤
+ │ Free lead buffer │ 3 leads per wallet-empty cycle (cyclic reset)        │
+ ├──────────────────┼──────────────────────────────────────────────────────┤
+ │ No balance       │ Property hidden after 3 buffer leads until recharge  │
+ ├──────────────────┼──────────────────────────────────────────────────────┤
+ │ Converted lead   │ No extra charge — only the initial enquiry is billed │
+ ├──────────────────┼──────────────────────────────────────────────────────┤
+ │ Daily lead cap   │ Configurable per listing by owner                    │
+ └──────────────────┴──────────────────────────────────────────────────────┘
+
+ Differentiation from competitors (e.g. NoBroker): No monthly lock-in. Owners pay
+ only for results. Zero upfront commitment.
+
+ Revenue stream: Per-lead charges + future ad integrations (Meta, Google).
+
+ ---
+ User Roles
+
+ 1. Buyer / User (Demand Side)
+
+ - Can browse property details before login
+ - Login: Google OAuth OR Mobile OTP only (no email/password)
+ - After login: can submit an enquiry on any property
+ - Cannot see owner contact details before submitting an enquiry
+ - Each submitted enquiry is recorded (time, date, property, phone number)
+
+ 2. Property Owner (Supply Side)
+
+ - Must be verified before listings go live
+ - Registration paths:
+   - Employee or representative with valid ID
+   - Authorized candidate (direct)
+   - Initial phase: platform's Management Trainees register on their behalf
+ - One owner can have multiple properties
+ - Prepaid wallet system — must recharge to keep listings active beyond 3 leads
+ - Receives real-time lead notifications (only if wallet is recharged)
+ - Can see leads only if wallet has balance
+
+ 3. Platform Staff / Admin
+
+ - Verifies property owners before they go live
+ - Management Trainees assist with early property registrations
+ - Initial phase: relaxed verification; stricter controls enforced as platform scales
+
+ ---
+ Property Listing Rules
+
+ - Images: Up to 10 per property
+ - Videos: Instagram Reels links + YouTube links (no direct upload initially)
+ - Only verified owner properties are displayed publicly
+ - Pre-launch properties: allowed but caution note shown to buyers
+ - Non-RERA approved properties: allowed but caution note shown to buyers
+
+ ---
+ Lead Pricing Matrix (Dynamic)
+
+ Lead price is calculated from 3 factors combined:
+
+ ┌──────────────┬────────────────────────────────────────────────────────────────┐
+ │    Factor    │                            Options                             │
+ ├──────────────┼────────────────────────────────────────────────────────────────┤
+ │ Location     │ Metro / Tier 1 city / Non-tier (smaller towns)                 │
+ │ tier         │                                                                │
+ ├──────────────┼────────────────────────────────────────────────────────────────┤
+ │ Property     │ Plot / Flat / Villa – Simplex / Villa – Duplex / Villa –       │
+ │ type         │ Triplex / Resort                                               │
+ ├──────────────┼────────────────────────────────────────────────────────────────┤
+ │ RERA status  │ RERA Approved / Non-approved / Pre-launch                      │
+ └──────────────┴────────────────────────────────────────────────────────────────┘
+
+ Each combination has its own price — configured by admin in a pricing table.
+
+ ---
+ Wallet & Listing Visibility Logic
+
+ 3-lead buffer resets every time the wallet hits zero (cyclic, not lifetime):
+
+ Each property tracks: buffer_leads_used (resets on each wallet-empty cycle)
+
+ State machine per property:
+   WALLET EMPTY + buffer_leads_used < 3:
+     → Listing visible, leads accepted (no charge, buffer consumed)
+
+   WALLET EMPTY + buffer_leads_used = 3:
+     → Listing HIDDEN until owner recharges
+
+   WALLET RECHARGED:
+     → buffer_leads_used resets to 0
+     → Listing visible again, leads charged from wallet
+
+   WALLET DRAINS TO 0 AGAIN:
+     → buffer_leads_used resets to 0 (new 3-lead buffer cycle starts)
+     → Listing still visible for next 3 leads (no charge)
+     → Hidden again after those 3
+
+ Example cycle:
+ 1. Owner recharges ₹500 → wallet active, leads charged per enquiry
+ 2. Wallet hits ₹0 → 3 free buffer leads start (listing stays visible)
+ 3. 3 buffer leads used → listing goes hidden
+ 4. Owner recharges again → buffer resets, listing visible, charges resume
+ 5. Repeat
+
+ On each new enquiry (wallet has balance):
+ 1. Buyer submits enquiry form (owner contact hidden before submit)
+ 2. Enquiry saved to DB (timestamp, property_id, buyer_phone, buyer_name)
+ 3. Lead cost (pricing matrix) deducted from owner wallet in real-time (+GST)
+ 4. Owner notified via:
+   a. Real-time push to owner dashboard (Supabase Realtime)
+   b. SMS + WhatsApp message with buyer contact details
+
+ Daily lead cap: Set by the owner per property. Once cap is hit, property shows
+ "enquiries paused for today."
+
+ ---
+ Authentication
+
+ ┌─────────────────────────┬───────────────────┐
+ │         Method          │        Who        │
+ ├─────────────────────────┼───────────────────┤
+ │ Google OAuth            │ Buyers and owners │
+ ├─────────────────────────┼───────────────────┤
+ │ Mobile OTP              │ Buyers and owners │
+ ├─────────────────────────┼───────────────────┤
+ │ No email/password login │ —                 │
+ └─────────────────────────┴───────────────────┘
+
+ ---
+ Advertising Readiness
+
+ - Meta Pixel + Conversions API — server-side events for better signal (bypasses ad
+ blockers)
+ - Google Tag Manager + GA4 — conversion tracking on enquiry submit
+ - All key events (page view, property view, enquiry submit, recharge) fired as
+ structured GTM data layer events
+
+ ---
+ Key Screens / Pages
+
+ 1. Home / Search — browse listings, filter by location/type/price (pre-login
+ accessible)
+ 2. Property Detail — images, video links, specs, RERA status, pricing (pre-login
+ accessible)
+ 3. Enquiry Form — login gate → submit → owner contact revealed
+ 4. Owner Dashboard — wallet balance, lead list, add/edit properties, recharge
+ 5. Admin Panel — owner verification queue, pricing matrix config, platform stats
+ 6. Login/Register — Google OAuth + Mobile OTP flow
+
+ ---
+ Service Architecture
+
+                         ┌─────────────────────────────┐
+                         │     Cloudflare CDN / WAF     │
+                         └──────────────┬──────────────┘
+                                        │
+                         ┌──────────────▼──────────────┐
+                         │   Next.js Frontend           │
+                         │   (GCP Cloud Run / Vercel)   │
+                         └──────────────┬──────────────┘
+                                        │ REST / HTTP
+                         ┌──────────────▼──────────────┐
+                         │   Node.js API Service        │  ← Phase 1
+                         │   (NestJS on GCP Cloud Run)  │
+                         └──────┬───────────────┬───────┘
+                                │               │
+               ┌────────────────▼──┐     ┌──────▼──────────────────┐
+               │  PostgreSQL       │     │  Redis Cache             │
+               │  (Cloud SQL, GCP) │     │  (Cloud Memorystore GCP  │
+               │  + pgvector ready │     │   or Upstash if cheaper) │
+               └───────────────────┘     └──────────────────────────┘
+                                │
+                     ┌──────────▼──────────┐
+                     │   BullMQ Queue       │
+                     │   (backed by Redis)  │
+                     └──────────┬──────────┘
+                                │
+                ┌───────────────┴────────────────┐
+                │                                │
+        ┌───────▼──────┐               ┌─────────▼────────┐
+        │  MSG91 SMS + │               │  Socket.io        │
+        │  WhatsApp    │               │  (real-time leads │
+        │  Business    │               │   on Node.js)     │
+        └──────────────┘               └──────────────────┘
+
+
+   ─ ─ ─ ─ ─ ─ ─ ─ Phase 2 addition only ─ ─ ─ ─ ─ ─ ─ ─
+
+   Node.js API  ──→  FastAPI ML Service (GCP Cloud Run, Python)
+                     - Property recommendations (pgvector)
+                     - Lead scoring
+                     - Auto-descriptions (Claude API)
+                     - Fraud detection
+
+ ---
+ Tech Stack
+
+ ┌───────────────┬───────────────────────────┬───────────────────────────────────┐
+ │     Layer     │          Phase 1          │              Phase 2              │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Frontend      │ Next.js 14 + TypeScript   │ — same —                          │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Styling       │ Tailwind CSS + shadcn/ui  │ — same —                          │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Backend       │ NestJS (Node.js)          │ + FastAPI (Python) ML service     │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Database      │ PostgreSQL (Cloud SQL)    │ — same + pgvector enabled —       │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Cache         │ Redis (Cloud Memorystore  │ Scale tier if needed              │
+ │               │ or Upstash)               │                                   │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Search        │ PostgreSQL full-text +    │ Swap to Typesense/Elasticsearch   │
+ │               │ filters                   │ if needed                         │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Real-time     │ Socket.io on Node.js      │ — same or swap to Ably at 100k —  │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Queue         │ BullMQ + Redis            │ Add ML job types                  │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Auth          │ Supabase Auth (Google +   │ — same —                          │
+ │               │ Phone OTP)                │                                   │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Storage       │ GCS (Google Cloud         │ — same —                          │
+ │               │ Storage) + CDN            │                                   │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Payments      │ Razorpay (UPI, wallet,    │ — same —                          │
+ │               │ webhooks)                 │                                   │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Notifications │ MSG91 (SMS + WhatsApp     │ — same —                          │
+ │               │ Business API)             │                                   │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Deployment    │ GCP Cloud Run (all        │ — same, scale instances —         │
+ │               │ services)                 │                                   │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ ML/AI         │ — foundations only —      │ FastAPI + Claude API              │
+ ├───────────────┼───────────────────────────┼───────────────────────────────────┤
+ │ Monitoring    │ GCP Cloud Logging + Error │ + Grafana / Sentry                │
+ │               │  Reporting                │                                   │
+ └───────────────┴───────────────────────────┴───────────────────────────────────┘
+
+ ---
+ GCP Deployment Plan
+
+ All services run as Docker containers on Cloud Run — serverless, auto-scales to
+ zero, pay per request.
+
+ GCP Project
+ ├── Cloud Run
+ │   ├── nextjs-frontend        (Next.js, scales 0→N)
+ │   ├── nodejs-api             (NestJS, scales 0→N)
+ │   └── fastapi-ml             (Phase 2 only)
+ ├── Cloud SQL
+ │   └── postgres-main          (PostgreSQL 15, private VPC)
+ ├── Memorystore
+ │   └── redis-main             (Redis 7, private VPC)
+ │                               ↑ use Upstash if budget is tight
+ ├── Cloud Storage
+ │   └── property-media-bucket  (images, videos)
+ ├── Cloud CDN                  (serves frontend + images)
+ ├── Cloud Armor                (WAF, DDoS protection)
+ ├── Secret Manager             (API keys, DB creds)
+ └── Artifact Registry          (Docker images for CI/CD)
+
+ Cost control levers:
+ - Cloud Run scales to zero when idle — no idle cost
+ - Cloud SQL can use shared-core (db-f1-micro) in early phase, upgrade live
+ - Upstash Redis (pay-per-request) is cheaper than Memorystore until ~50k req/day
+ - Switch to Memorystore when sustained Redis load justifies reserved instance
+
+ CI/CD: GitHub Actions → build Docker image → push to Artifact Registry → deploy to
+ Cloud Run (zero-downtime rolling deploy)
+
+ ---
+ Phase 1 Foundations That Enable Phase 2 (No Rewrites)
+
+ 1. pgvector extension installed on Cloud SQL — embedding vector(1536) column on
+ properties, null for now. Phase 2 runs a backfill job only.
+ 2. Internal event bus (NestJS EventEmitter) — every key action emits an event
+ (enquiry, recharge, listing published). Phase 2 FastAPI ML service subscribes via a
+ dedicated queue topic — no hooks to add.
+ 3. Versioned REST API (/api/v1/) — ML service and future clients consume v1.
+ Breaking changes go to v2 without touching Phase 1 consumers.
+ 4. BullMQ queue already running — SMS/WhatsApp use it in Phase 1. Phase 2 adds ML
+ job types to the same queue.
+ 5. NestJS modular structure — ListingsModule, LeadsModule, WalletModule,
+ NotificationsModule are isolated. MlProxyModule is added in Phase 2 to call FastAPI
+ — zero changes to existing modules.
+ 6. Node.js → FastAPI HTTP contract defined in Phase 1 — ML service interface
+ (request/response schema) is documented as an OpenAPI spec even before FastAPI is
+ built. Phase 1 Node.js has a stub MlService that returns defaults — Phase 2 replaces
+  the stub with real HTTP calls.
+
+ ---
+ AI/ML Features Roadmap (Phase 2 — FastAPI)
+
+ ┌────────────────────────┬───────────────────────────┬──────────────────────────┐
+ │        Feature         │    Phase 1 foundation     │ Phase 2 FastAPI endpoint │
+ ├────────────────────────┼───────────────────────────┼──────────────────────────┤
+ │ Property               │ pgvector column ready     │ POST /ml/recommendations │
+ │ recommendations        │                           │                          │
+ ├────────────────────────┼───────────────────────────┼──────────────────────────┤
+ │ Auto-generate          │ Structured listing schema │ POST                     │
+ │ descriptions           │                           │ /ml/describe-property    │
+ ├────────────────────────┼───────────────────────────┼──────────────────────────┤
+ │ Lead scoring (buyer    │ Enquiry events in queue   │ POST /ml/score-lead      │
+ │ intent)                │                           │                          │
+ ├────────────────────────┼───────────────────────────┼──────────────────────────┤
+ │ Price suggestion for   │ Lead pricing +            │ POST /ml/suggest-price   │
+ │ admin                  │ transaction history       │                          │
+ ├────────────────────────┼───────────────────────────┼──────────────────────────┤
+ │ Fraud detection        │ Wallet transaction events │ Background job, no       │
+ │                        │                           │ endpoint                 │
+ ├────────────────────────┼───────────────────────────┼──────────────────────────┤
+ │ Buyer chatbot          │ Versioned API, structured │ POST /ml/chat (Claude    │
+ │                        │  data                     │ API)                     │
+ └────────────────────────┴───────────────────────────┴──────────────────────────┘
+
+ ---
+ Database Tables (High-Level)
+
+ ┌─────────────────────┬──────────────────────────────────────────────────────────┐
+ │        Table        │                         Purpose                          │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ users               │ All users, role (buyer/owner/admin/mt)                   │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ owners              │ Verification status, wallet_balance, buffer_leads_used   │
+ │                     │ per property                                             │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ properties          │ Listing details, RERA status, tier, type, is_active,     │
+ │                     │ buffer_leads_used                                        │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ property_media      │ Images (R2 URLs) and video links                         │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ property_embeddings │ pgvector embeddings for AI similarity search             │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ lead_pricing        │ Price matrix (tier × property_type × rera_status)        │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ enquiries           │ buyer_id, property_id, phone, timestamp, cost_charged,   │
+ │                     │ gst                                                      │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ wallet_transactions │ Credits (recharge) and debits (lead) per owner with GST  │
+ │                     │ breakdown                                                │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ daily_lead_caps     │ Max leads/day per property (set by owner)                │
+ ├─────────────────────┼──────────────────────────────────────────────────────────┤
+ │ notification_log    │ SMS/WhatsApp delivery status per lead                    │
+ └─────────────────────┴──────────────────────────────────────────────────────────┘
+
+ ---
+ Confirmed Decisions
+
+ ┌────────────────────────┬─────────────────────────────────────────────┐
+ │        Decision        │                   Answer                    │
+ ├────────────────────────┼─────────────────────────────────────────────┤
+ │ 3-lead buffer scope    │ Cyclic — resets every time wallet hits zero │
+ ├────────────────────────┼─────────────────────────────────────────────┤
+ │ Owner contact delivery │ Dashboard + SMS + WhatsApp                  │
+ ├────────────────────────┼─────────────────────────────────────────────┤
+ │ Daily lead cap control │ Owner sets per property                     │
+ ├────────────────────────┼─────────────────────────────────────────────┤
+ │ Launch geography       │ Nationwide (all India)                      │
+ └────────────────────────┴─────────────────────────────────────────────┘
+
+ Open Questions (to confirm before building)
+
+ 1. Management Trainee role — separate login role or handled under the same admin
+ panel?
+ 2. SMS/WhatsApp provider — preference for Twilio, MSG91, or other Indian provider?
+ 3. Pre-launch property — should it accept enquiries (with caution note) or only show
+  info (no enquiry)?
+ 4. Wallet recharge — minimum ₹500 only for early phase; what's the plan after 1,000
+ properties?
