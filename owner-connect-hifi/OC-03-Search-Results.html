@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Search Results</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="hifi-assets/image-slot.js"></script>
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .results{display:grid;grid-template-columns:272px 1fr;gap:24px;align-items:start;}
+  .filters{position:sticky;top:90px;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow-sm);overflow:hidden;}
+  .filters .fhead{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;border-bottom:1px solid var(--line-2);}
+  .filters .fsec{padding:16px;border-bottom:1px solid var(--line-2);}
+  .filters .fsec:last-child{border-bottom:0}
+  .filters h4{font-size:13px;font-weight:800;color:var(--ink);margin-bottom:11px;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .checks{display:flex;flex-direction:column;gap:9px;}
+  .ck{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--body);cursor:pointer;}
+  .ck .box{width:18px;height:18px;border-radius:5px;border:1.5px solid var(--line);flex:none;display:grid;place-items:center;color:#fff;}
+  .ck.on .box{background:var(--blue);border-color:var(--blue);}
+  .ck .cnt{margin-left:auto;font-size:11.5px;color:var(--muted);}
+  .range{display:flex;gap:8px;}
+  .range .ctrl{height:40px;font-size:13px;}
+  .resbar{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:16px;}
+  .resbar .cnt{font-size:14px;color:var(--body);}
+  .resbar .cnt b{color:var(--ink)}
+  .reslist{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
+  .rcard{display:flex;flex-direction:column;}
+  .rcard .pbody{gap:7px;}
+  .ownerrow{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--body);margin-top:2px;}
+  .ownerrow .av{width:24px;height:24px;border-radius:50%;background:var(--blue-soft);display:grid;place-items:center;color:var(--blue);font-size:10px;font-weight:800;}
+  .pager{display:flex;justify-content:center;gap:6px;margin-top:28px;}
+  .pager a{min-width:38px;height:38px;border-radius:9px;border:1px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:13px;color:var(--ink);background:#fff;}
+  .pager a.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+  .topsearch{background:#fff;border-bottom:1px solid var(--line);}
+  .topsearch .row-in{display:flex;gap:12px;padding:16px 0;align-items:center;}
+  .topsearch .ctrl{flex:1}
+  @media(max-width:1080px){.results{grid-template-columns:1fr}.filters{position:static}.reslist{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div data-oc-header data-active="Buy"></div>
+
+<div class="topsearch"><div class="wrap row-in">
+  <div class="ctrl"><svg class="ico" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><input value="Noida, Uttar Pradesh"></div>
+  <div class="ctrl sel" style="max-width:170px"><span>Budget: ₹50L–₹1Cr</span><svg class="ico sm" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+  <div class="ctrl sel" style="max-width:150px"><span>3 BHK</span><svg class="ico sm" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+  <a class="btn blue" href="#"><svg class="ico sm" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg> Search</a>
+</div></div>
+
+<div class="wrap page">
+  <div class="results">
+    <!-- FILTER RAIL -->
+    <aside class="filters">
+      <div class="fhead"><span class="t-strong">Filters</span><a class="link-arrow" href="#" style="font-size:12px">Reset all</a></div>
+      <div class="fsec"><h4>Listed By</h4><div class="chips"><span class="pill on">Owner</span><span class="pill">Builder</span><span class="pill">All</span></div></div>
+      <div class="fsec"><h4>Price Range</h4><div class="range"><div class="ctrl ph">Min</div><div class="ctrl ph">Max</div></div></div>
+      <div class="fsec"><h4>Property Type</h4><div class="checks">
+        <label class="ck on"><span class="box"><svg class="ico sm" viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M5 12l4 4 10-10"/></svg></span> Apartment <span class="cnt">1,204</span></label>
+        <label class="ck"><span class="box"></span> Independent House <span class="cnt">486</span></label>
+        <label class="ck"><span class="box"></span> Villa <span class="cnt">212</span></label>
+        <label class="ck"><span class="box"></span> Plot / Land <span class="cnt">390</span></label>
+      </div></div>
+      <div class="fsec"><h4>Bedrooms</h4><div class="chips"><span class="pill">1</span><span class="pill">2</span><span class="pill on">3</span><span class="pill">4</span><span class="pill">4+</span></div></div>
+      <div class="fsec"><h4>Verification & Trust</h4><div class="checks">
+        <label class="ck on"><span class="box"><svg class="ico sm" viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M5 12l4 4 10-10"/></svg></span> Verified owners only</label>
+        <label class="ck on"><span class="box"><svg class="ico sm" viewBox="0 0 24 24" style="width:12px;height:12px"><path d="M5 12l4 4 10-10"/></svg></span> RERA approved</label>
+        <label class="ck"><span class="box"></span> Verified documents</label>
+        <label class="ck"><span class="box"></span> Freehold only</label>
+      </div></div>
+      <div class="fsec"><h4>Furnishing</h4><div class="chips"><span class="pill">Unfurnished</span><span class="pill">Semi</span><span class="pill">Full</span></div></div>
+    </aside>
+
+    <!-- RESULTS -->
+    <div>
+      <div class="resbar">
+        <div class="cnt"><b>1,204</b> verified properties in <b>Noida</b></div>
+        <div class="row gap-sm">
+          <div class="tabs"><button class="on">List</button><button>Map</button></div>
+          <div class="ctrl sel" style="height:40px;width:180px"><span>Sort: Relevance</span><svg class="ico sm" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        </div>
+      </div>
+
+      <div class="alert info" style="margin-bottom:16px"><svg class="ico" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7"/></svg><div><b>No brokerage on any listing.</b> You connect directly with verified owners — contact details unlock when you enquire.</div></div>
+
+      <div class="reslist">
+        <!-- card template repeated -->
+        <article class="pcard rcard">
+          <div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified Owner</span><span class="tag r">RERA</span></div><div class="heart">♡</div><image-slot id="sr1" shape="rect" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=700&q=80&auto=format&fit=crop"></image-slot></div>
+          <div class="pbody">
+            <div class="between"><span class="price">₹85.00 L</span><span class="badge grey">Ready to move</span></div>
+            <div class="ptitle">3 BHK Apartment · 1650 sq ft</div>
+            <div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Sector 150, Noida</div>
+            <div class="ownerrow"><span class="av">RK</span> Rajesh Kumar · <span class="g-green" style="font-weight:700">Owner verified</span></div>
+            <div class="pbtns"><a class="btn ghost" href="OC-02-Property-Listing.html">View Details</a><a class="btn green" href="OC-02-Property-Listing.html">Contact Owner</a></div>
+          </div>
+        </article>
+
+        <article class="pcard rcard">
+          <div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified Owner</span></div><div class="heart on">♥</div><image-slot id="sr2" shape="rect" src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=700&q=80&auto=format&fit=crop"></image-slot></div>
+          <div class="pbody">
+            <div class="between"><span class="price">₹72.50 L</span><span class="badge grey">Ready to move</span></div>
+            <div class="ptitle">3 BHK Apartment · 1480 sq ft</div>
+            <div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Sector 137, Noida</div>
+            <div class="ownerrow"><span class="av">SM</span> Sunita Mehta · <span class="g-green" style="font-weight:700">Owner verified</span></div>
+            <div class="pbtns"><a class="btn ghost" href="OC-02-Property-Listing.html">View Details</a><a class="btn green" href="OC-02-Property-Listing.html">Contact Owner</a></div>
+          </div>
+        </article>
+
+        <article class="pcard rcard">
+          <div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified Owner</span><span class="tag r">RERA</span></div><div class="heart">♡</div><image-slot id="sr3" shape="rect" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=700&q=80&auto=format&fit=crop"></image-slot></div>
+          <div class="pbody">
+            <div class="between"><span class="price">₹1.15 Cr</span><span class="badge warn">Under construction</span></div>
+            <div class="ptitle">3 BHK Apartment · 1820 sq ft</div>
+            <div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Sector 128, Noida</div>
+            <div class="ownerrow"><span class="av">VB</span> Verge Builders · <span class="g-blue" style="font-weight:700">RERA verified</span></div>
+            <div class="pbtns"><a class="btn ghost" href="OC-02-Property-Listing.html">View Details</a><a class="btn green" href="OC-02-Property-Listing.html">Contact Owner</a></div>
+          </div>
+        </article>
+
+        <article class="pcard rcard">
+          <div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified Owner</span></div><div class="heart">♡</div><image-slot id="sr4" shape="rect" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=700&q=80&auto=format&fit=crop"></image-slot></div>
+          <div class="pbody">
+            <div class="between"><span class="price">₹68.00 L</span><span class="badge grey">Ready to move</span></div>
+            <div class="ptitle">3 BHK Apartment · 1390 sq ft</div>
+            <div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Sector 76, Noida</div>
+            <div class="ownerrow"><span class="av">AK</span> Amit Khanna · <span class="g-green" style="font-weight:700">Owner verified</span></div>
+            <div class="pbtns"><a class="btn ghost" href="OC-02-Property-Listing.html">View Details</a><a class="btn green" href="OC-02-Property-Listing.html">Contact Owner</a></div>
+          </div>
+        </article>
+      </div>
+
+      <div class="pager"><a href="#">‹</a><a class="on" href="#">1</a><a href="#">2</a><a href="#">3</a><a href="#">…</a><a href="#">24</a><a href="#">›</a></div>
+    </div>
+  </div>
+</div>
+
+<div data-oc-footer></div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#1b4fd8"/><g stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"><circle cx="44" cy="44" r="20"/><path d="M60 60l16 16"/></g></svg></template>
+</body>
+</html>

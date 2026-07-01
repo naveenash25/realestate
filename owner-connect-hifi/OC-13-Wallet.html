@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Wallet & Lead Controls</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .wlayout{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start}
+  .wallet-hero{background:linear-gradient(135deg,var(--navy-1),var(--navy-2));color:#fff;border-radius:var(--r);padding:24px}
+  .wallet-hero .bal{font-size:40px;font-weight:900;letter-spacing:-.02em;margin:6px 0}
+  .control-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 0;border-bottom:1px solid var(--line-2)}
+  .control-row:last-child{border-bottom:0}
+  .txn-amt.cr{color:var(--green-2);font-weight:700}.txn-amt.dr{color:var(--ink);font-weight:700}
+  @media(max-width:1080px){.wlayout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside data-oc-side="owner" data-active="Wallet"></aside>
+  <main class="main">
+    <div class="topbar"><div class="search"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg> Search transactions…</div><a class="btn green sm" href="OC-09-Payment-Plans.html" style="margin-left:auto"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Recharge</a></div>
+    <div class="main-in">
+      <div class="page-title"><div><div class="crumb">Owner panel · Wallet</div><h1>Wallet &amp; Lead Controls</h1><p>Manage your balance and control exactly how many leads you receive and pay for.</p></div></div>
+
+      <div class="wlayout">
+        <div class="col" style="gap:20px">
+          <div class="wallet-hero">
+            <div class="row between"><span class="lbl" style="color:#aab9d6">Available balance</span><span class="badge verified" style="background:rgba(111,227,160,.18);color:#9cf0c0">Active</span></div>
+            <div class="bal">₹2,450</div>
+            <div class="t-sm" style="color:#cdd8ee">≈ 20 genuine leads at your current ₹120/lead rate</div>
+            <div class="row gap-sm" style="margin-top:18px"><a class="btn green" href="OC-09-Payment-Plans.html">Recharge</a><a class="btn ghost" href="#" style="background:transparent;color:#fff;border-color:rgba(255,255,255,.3)">Auto-recharge</a></div>
+          </div>
+
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Transactions</h2><div class="tabs"><button class="on">All</button><button>Recharge</button><button>Lead spend</button></div></div>
+            <table class="tbl">
+              <thead><tr><th>Date</th><th>Description</th><th>Type</th><th style="text-align:right">Amount</th><th style="text-align:right">Balance</th></tr></thead>
+              <tbody>
+                <tr><td>02 Jun</td><td>Lead — Anjali Rao · Sector 150</td><td><span class="badge grey">Lead</span></td><td style="text-align:right" class="txn-amt dr">− ₹120</td><td style="text-align:right">₹2,450</td></tr>
+                <tr><td>01 Jun</td><td>Wallet recharge (UPI)</td><td><span class="badge verified">Credit</span></td><td style="text-align:right" class="txn-amt cr">+ ₹3,000</td><td style="text-align:right">₹2,570</td></tr>
+                <tr><td>31 May</td><td>Lead — Mohit Sethi · Sector 137</td><td><span class="badge grey">Lead</span></td><td style="text-align:right" class="txn-amt dr">− ₹45</td><td style="text-align:right">₹—</td></tr>
+                <tr><td>30 May</td><td>Refund — flagged lead reversed</td><td><span class="badge verified">Credit</span></td><td style="text-align:right" class="txn-amt cr">+ ₹120</td><td style="text-align:right">—</td></tr>
+                <tr><td>29 May</td><td>Lead — Deepa Gupta · Sector 150</td><td><span class="badge grey">Lead</span></td><td style="text-align:right" class="txn-amt dr">− ₹120</td><td style="text-align:right">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- CONTROLS -->
+        <div class="col" style="gap:20px">
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Lead controls</h2></div>
+            <div class="control-row"><div><div class="t-strong">Pause all leads</div><div class="t-sm t-mut">Stop receiving (and paying for) leads</div></div><span class="sw"></span></div>
+            <div class="control-row"><div><div class="t-strong">Auto-recharge</div><div class="t-sm t-mut">Top up ₹3,000 when below ₹500</div></div><span class="sw on"></span></div>
+            <div class="control-row"><div class="grow"><div class="between"><span class="t-strong">Daily lead limit</span><span class="t-strong g-blue">25 / day</span></div><div class="meter mt"><div class="v" style="width:56%"></div></div><div class="t-sm t-mut" style="margin-top:5px">14 received today</div></div></div>
+            <div class="control-row"><div class="grow"><div class="between"><span class="t-strong">Weekly cap</span><span class="t-strong g-blue">120 / week</span></div><div class="meter mt"><div class="v green" style="width:38%"></div></div></div></div>
+          </div>
+
+          <div class="alert warn"><svg class="ico" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg><div><b>Balance covers ~20 leads.</b> Auto-recharge is on, so your listings won't pause.</div></div>
+
+          <div class="card pad-lg">
+            <div class="lbl" style="margin-bottom:8px">This month</div>
+            <div class="row between" style="padding:6px 0"><span class="t">Leads received</span><span class="t-strong">38</span></div>
+            <div class="row between" style="padding:6px 0"><span class="t">Spent on leads</span><span class="t-strong">₹4,120</span></div>
+            <div class="row between" style="padding:6px 0"><span class="t">Refunded (flagged)</span><span class="g-green">₹240</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0b1730"/><g stroke="#6fe3a0" stroke-width="5" fill="none"><rect x="24" y="32" width="52" height="36" rx="5"/><circle cx="64" cy="50" r="4"/></g></svg></template>
+</body>
+</html>

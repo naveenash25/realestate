@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Lead Management</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .lead-layout{display:grid;grid-template-columns:1fr 360px;gap:20px;align-items:start;}
+  .av{width:38px;height:38px;border-radius:50%;background:var(--blue-soft);display:grid;place-items:center;color:var(--blue);font-weight:800;font-size:13px;flex:none}
+  .drawer{position:sticky;top:84px;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden;}
+  .drawer .dh{padding:18px;border-bottom:1px solid var(--line-2);display:flex;align-items:center;gap:12px;}
+  .drawer .av-lg{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;color:#fff;font-weight:800;flex:none}
+  .drawer .db{padding:18px;display:flex;flex-direction:column;gap:14px;}
+  .kv{display:flex;justify-content:space-between;font-size:13.5px;}
+  .kv .k{color:var(--muted)}.kv .v{color:var(--ink);font-weight:700}
+  .scorebar{display:flex;align-items:center;gap:10px;}
+  @media(max-width:1080px){.lead-layout{grid-template-columns:1fr}.drawer{position:static}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside data-oc-side="owner" data-active="Leads"></aside>
+  <main class="main">
+    <div class="topbar">
+      <div class="search"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg> Search leads by name, property…</div>
+      <div class="row gap-sm" style="margin-left:auto"><span class="badge verified"><span class="dot"></span>Wallet ₹2,450</span></div>
+    </div>
+    <div class="main-in">
+      <div class="page-title"><div><div class="crumb">Owner panel · Leads</div><h1>Lead Management</h1><p>Genuine, AI-scored enquiries from verified buyers. You're charged only for genuine leads.</p></div></div>
+
+      <div class="grid g4" style="margin-bottom:20px">
+        <div class="statcard"><div class="num">38</div><div class="lbl2">Total leads</div></div>
+        <div class="statcard green"><div class="num">31</div><div class="lbl2">Genuine</div></div>
+        <div class="statcard amber"><div class="num">5</div><div class="lbl2">Pending review</div></div>
+        <div class="statcard"><div class="num">₹4,120</div><div class="lbl2">Spent this month</div></div>
+      </div>
+
+      <div class="lead-layout">
+        <div class="card">
+          <div class="pad" style="border-bottom:1px solid var(--line-2)"><div class="between"><div class="tabs"><button class="on">All</button><button>Genuine</button><button>Pending</button><button>Flagged</button></div><div class="ctrl sel" style="height:38px;width:170px"><span>All properties</span><svg class="ico sm" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div></div>
+          <table class="tbl">
+            <thead><tr><th>Buyer</th><th>Property</th><th>Quality</th><th>Date</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr style="cursor:pointer"><td><div class="row gap-sm"><span class="av">AR</span><div><div class="t-strong">Anjali Rao</div><div class="t-sm t-mut">+91 98••• ••42</div></div></div></td><td>3 BHK, Sector 150</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span></td><td>2h ago</td><td><span class="badge verified">Genuine</span></td></tr>
+              <tr><td><div class="row gap-sm"><span class="av">MS</span><div><div class="t-strong">Mohit Sethi</div><div class="t-sm t-mut">+91 99••• ••10</div></div></div></td><td>2 BHK, Sector 137</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td>5h ago</td><td><span class="badge verified">Genuine</span></td></tr>
+              <tr><td><div class="row gap-sm"><span class="av">KP</span><div><div class="t-strong">Kiran Patel</div><div class="t-sm t-mut">+91 90••• ••77</div></div></div></td><td>2 BHK, Sector 137</td><td><span class="score"><i class="on"></i><i></i><i></i><i></i><i></i></span></td><td>1d ago</td><td><span class="badge danger">Flagged</span></td></tr>
+              <tr><td><div class="row gap-sm"><span class="av">DG</span><div><div class="t-strong">Deepa Gupta</div><div class="t-sm t-mut">+91 98••• ••31</div></div></div></td><td>3 BHK, Sector 150</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></td><td>1d ago</td><td><span class="badge warn">Pending</span></td></tr>
+              <tr><td><div class="row gap-sm"><span class="av">RV</span><div><div class="t-strong">Rohit Verma</div><div class="t-sm t-mut">+91 97••• ••08</div></div></div></td><td>3 BHK, Sector 150</td><td><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></td><td>2d ago</td><td><span class="badge grey">Contacted</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- DRAWER -->
+        <div class="drawer">
+          <div class="dh"><span class="av-lg">AR</span><div><div class="t-strong" style="font-size:15px">Anjali Rao</div><div class="row gap-sm" style="margin-top:3px"><span class="badge verified" style="font-size:10px">Verified buyer</span></div></div></div>
+          <div class="db">
+            <div class="scorebar"><span class="lbl">Lead quality</span><span class="score"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span><span class="t-sm g-green" style="font-weight:700">Genuine</span></div>
+            <div class="alert ok" style="padding:10px 12px"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg><div class="t-sm">Passed AI fraud check · mobile + identity verified</div></div>
+            <div class="divider"></div>
+            <div class="kv"><span class="k">Property</span><span class="v">3 BHK, Sector 150</span></div>
+            <div class="kv"><span class="k">Budget</span><span class="v">₹80–90 L</span></div>
+            <div class="kv"><span class="k">Looking to</span><span class="v">Buy · within 2 months</span></div>
+            <div class="kv"><span class="k">Lead charge</span><span class="v g-blue">₹120</span></div>
+            <div class="divider"></div>
+            <div class="lbl">Contact</div>
+            <div class="row gap-sm"><svg class="ico sm" viewBox="0 0 24 24" style="color:var(--muted)"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L16 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span class="t-strong">+91 98765 43242</span></div>
+            <div class="row gap-sm"><svg class="ico sm" viewBox="0 0 24 24" style="color:var(--muted)"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg><span class="t">anjali.rao@email.com</span></div>
+            <a class="btn green block" href="OC-10-Chat.html"><svg class="ico sm" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg> Message buyer</a>
+            <a class="btn ghost block" href="#">Mark as contacted</a>
+            <a class="btn danger block" href="#">Report lead as spam</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0b1730"/><g stroke="#6fe3a0" stroke-width="5" fill="none" stroke-linecap="round"><circle cx="44" cy="38" r="12"/><path d="M24 74a20 20 0 0 1 40 0"/><circle cx="70" cy="42" r="8"/></g></svg></template>
+</body>
+</html>

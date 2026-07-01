@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Notifications</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .nlayout{display:grid;grid-template-columns:1fr 280px;gap:22px;align-items:start}
+  .nfilters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+  .ngroup-title{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:22px 0 10px}
+  .ngroup-title:first-child{margin-top:0}
+  .nitem{display:flex;gap:13px;padding:14px 16px;background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;box-shadow:var(--shadow-sm);position:relative}
+  .nitem.unread{border-left:3px solid var(--blue)}
+  .nitem .ni{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--blue-soft);color:var(--blue)}
+  .nitem .ni.green{background:var(--green-soft);color:var(--green-2)}
+  .nitem .ni.amber{background:var(--amber-soft);color:var(--amber-2)}
+  .nitem .ni.red{background:var(--red-soft);color:var(--red)}
+  .nitem .nt{font-size:14px;color:var(--ink)}
+  .nitem .nt b{font-weight:700}
+  .nitem .ntime{font-size:12px;color:var(--muted);margin-top:3px}
+  .nitem .dot-new{position:absolute;top:16px;right:16px;width:8px;height:8px;border-radius:50%;background:var(--blue)}
+  .pref{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line-2)}
+  .pref:last-child{border-bottom:0}
+  @media(max-width:1080px){.nlayout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside data-oc-side="owner" data-active="Notifications"></aside>
+  <main class="main">
+    <div class="topbar"><div class="row gap-sm"><span class="badge"><span class="dot"></span>5 unread</span></div><a class="link-arrow" href="#" style="margin-left:auto">Mark all as read</a></div>
+    <div class="main-in">
+      <div class="page-title"><div><div class="crumb">Account · Notifications</div><h1>Notifications</h1></div></div>
+
+      <div class="nlayout">
+        <div>
+          <div class="nfilters"><span class="pill on">All</span><span class="pill">Leads</span><span class="pill">Verification</span><span class="pill">Messages</span><span class="pill">Wallet</span><span class="pill">System</span></div>
+
+          <div class="ngroup-title">Today</div>
+          <div class="nitem unread"><span class="ni green"><svg class="ico sm" viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0"/><circle cx="12" cy="7" r="3"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span><div class="grow"><div class="nt"><b>New genuine lead</b> from Anjali Rao on your 3 BHK, Sector 150.</div><div class="ntime">2 hours ago · ₹120 charged</div></div><span class="dot-new"></span></div>
+          <div class="nitem unread"><span class="ni green"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg></span><div class="grow"><div class="nt"><b>Listing verified &amp; published!</b> Your 3 BHK, Sector 150 is now live with the verified badge.</div><div class="ntime">3 hours ago</div></div><span class="dot-new"></span></div>
+          <div class="nitem unread"><span class="ni"><svg class="ico sm" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.8-5.5A8 8 0 1 1 21 12z"/></svg></span><div class="grow"><div class="nt"><b>Rajesh Kumar</b> replied to your enquiry. "Sure, you can visit this weekend…"</div><div class="ntime">4 hours ago</div></div><span class="dot-new"></span></div>
+
+          <div class="ngroup-title">Yesterday</div>
+          <div class="nitem unread"><span class="ni amber"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg></span><div class="grow"><div class="nt"><b>Low wallet balance.</b> ₹2,450 left ≈ 20 leads. Auto-recharge is on.</div><div class="ntime">1 day ago</div></div><span class="dot-new"></span></div>
+          <div class="nitem"><span class="ni red"><svg class="ico sm" viewBox="0 0 24 24"><path d="M4 21V4h13l-2 4 2 4H4"/></svg></span><div class="grow"><div class="nt"><b>Lead refunded.</b> A flagged lead on Sector 137 was reversed — ₹120 credited back.</div><div class="ntime">1 day ago</div></div></div>
+          <div class="nitem"><span class="ni"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></span><div class="grow"><div class="nt"><b>Price drop</b> on a saved property — 3 BHK Sector 150 dropped by ₹2 L.</div><div class="ntime">1 day ago</div></div></div>
+
+          <div class="ngroup-title">Earlier</div>
+          <div class="nitem"><span class="ni"><svg class="ico sm" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg></span><div class="grow"><div class="nt"><b>Recharge successful.</b> ₹3,000 added to your wallet via UPI.</div><div class="ntime">3 days ago</div></div></div>
+          <div class="nitem"><span class="ni amber"><svg class="ico sm" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg></span><div class="grow"><div class="nt"><b>Documents pending.</b> Upload the encumbrance certificate for your Yamuna Expy plot.</div><div class="ntime">4 days ago</div></div></div>
+        </div>
+
+        <div class="card pad-lg" style="position:sticky;top:84px">
+          <div class="lbl" style="margin-bottom:8px">Notify me about</div>
+          <div class="pref"><span class="t">New leads</span><span class="sw on"></span></div>
+          <div class="pref"><span class="t">Verification updates</span><span class="sw on"></span></div>
+          <div class="pref"><span class="t">Messages</span><span class="sw on"></span></div>
+          <div class="pref"><span class="t">Wallet &amp; billing</span><span class="sw on"></span></div>
+          <div class="pref"><span class="t">Price drops</span><span class="sw on"></span></div>
+          <div class="pref"><span class="t">Marketing</span><span class="sw"></span></div>
+          <a class="link-arrow" href="OC-11-Profile.html" style="font-size:12.5px;margin-top:12px;display:inline-flex">All settings <svg class="ico sm" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0b1730"/><g stroke="#6fe3a0" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M72 60a30 30 0 0 0-10-22 12 12 0 0 0-24 0 30 30 0 0 0-10 22c0 8-4 10-4 10h52s-4-2-4-10z"/><path d="M44 76a8 8 0 0 0 12 0"/></g></svg></template>
+</body>
+</html>

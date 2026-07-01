@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="hifi-assets/image-slot.js"></script>
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .player{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+  .pf-head{display:flex;align-items:center;gap:18px}
+  .pf-head image-slot{width:84px;height:84px;flex:none}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .kyc{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line-2)}
+  .kyc:last-child{border-bottom:0}
+  .kyc .ki{width:36px;height:36px;border-radius:10px;background:var(--green-soft);color:var(--green-2);display:grid;place-items:center;flex:none}
+  .kyc .ki.pend{background:var(--amber-soft);color:var(--amber-2)}
+  .ctrl-toggle{display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line-2)}
+  .ctrl-toggle:last-child{border-bottom:0}
+  @media(max-width:1080px){.player{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside data-oc-side="owner" data-active="Profile"></aside>
+  <main class="main">
+    <div class="topbar"><div class="row gap-sm" style="margin-left:auto"><span class="lbl">Acting as</span><div class="tabs"><button class="on">Owner</button><button>Buyer</button></div></div></div>
+    <div class="main-in">
+      <div class="page-title"><div><div class="crumb">Account · Profile</div><h1>My Profile</h1></div></div>
+
+      <div class="player">
+        <div class="col" style="gap:20px">
+          <div class="card pad-lg">
+            <div class="pf-head">
+              <image-slot id="pf-av" shape="circle" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&q=80&auto=format&fit=crop"></image-slot>
+              <div><div class="row gap-sm"><h2 class="h-lg">Rajesh Kumar</h2><span class="badge verified"><span class="dot"></span>Verified</span></div><div class="t-mut" style="margin-top:4px">Property Owner · Member since 2024</div><a class="link-arrow" href="#" style="font-size:12.5px;margin-top:6px;display:inline-flex">Change photo</a></div>
+            </div>
+            <div class="divider"></div>
+            <div class="form-grid">
+              <div class="field"><label>Full name</label><div class="ctrl"><input value="Rajesh Kumar"></div></div>
+              <div class="field"><label>Mobile (verified)</label><div class="ctrl"><input value="+91 98765 43242"><svg class="ico sm" viewBox="0 0 24 24" style="color:var(--green-2)"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></div></div>
+              <div class="field"><label>Email</label><div class="ctrl"><input value="rajesh.kumar@email.com"></div></div>
+              <div class="field"><label>City</label><div class="ctrl"><input value="Noida, Uttar Pradesh"></div></div>
+            </div>
+            <div class="row gap-sm mt-lg"><a class="btn green" href="#">Save changes</a><a class="btn ghost" href="#">Cancel</a></div>
+          </div>
+
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Saved searches</h2></div>
+            <div class="row between" style="padding:11px 0;border-bottom:1px solid var(--line-2)"><div class="t-strong">3 BHK · Noida · ₹50L–1Cr</div><span class="sw on"></span></div>
+            <div class="row between" style="padding:11px 0"><div class="t-strong">Plots · Greater Noida</div><span class="sw on"></span></div>
+          </div>
+
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Notification preferences</h2></div>
+            <div class="ctrl-toggle"><div><div class="t-strong">New leads</div><div class="t-sm t-mut">SMS + push when a lead arrives</div></div><span class="sw on"></span></div>
+            <div class="ctrl-toggle"><div><div class="t-strong">Low wallet balance</div><div class="t-sm t-mut">Alert below ₹500</div></div><span class="sw on"></span></div>
+            <div class="ctrl-toggle"><div><div class="t-strong">Marketing &amp; offers</div><div class="t-sm t-mut">Occasional product updates</div></div><span class="sw"></span></div>
+          </div>
+        </div>
+
+        <div class="col" style="gap:20px">
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Verification / KYC</h2></div>
+            <div class="kyc"><span class="ki"><svg class="ico sm" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span><div class="grow"><div class="t-strong">Mobile number</div><div class="t-sm t-mut">Verified via OTP</div></div></div>
+            <div class="kyc"><span class="ki"><svg class="ico sm" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span><div class="grow"><div class="t-strong">Aadhaar</div><div class="t-sm t-mut">Identity confirmed</div></div></div>
+            <div class="kyc"><span class="ki"><svg class="ico sm" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span><div class="grow"><div class="t-strong">PAN</div><div class="t-sm t-mut">Linked &amp; verified</div></div></div>
+            <div class="kyc"><span class="ki pend"><svg class="ico sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div class="grow"><div class="t-strong">Address proof</div><div class="t-sm t-mut">Optional — boosts trust score</div></div><a class="btn ghost sm" href="#">Add</a></div>
+          </div>
+
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Security</h2></div>
+            <div class="ctrl-toggle"><div><div class="t-strong">Login via OTP</div><div class="t-sm t-mut">Passwordless, mobile-first</div></div><span class="sw on"></span></div>
+            <div class="ctrl-toggle"><div><div class="t-strong">Two-factor on payments</div></div><span class="sw on"></span></div>
+          </div>
+
+          <a class="btn danger block" href="OC-16-Login.html">Log out</a>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0b1730"/><g stroke="#6fe3a0" stroke-width="5" fill="none" stroke-linecap="round"><circle cx="50" cy="40" r="14"/><path d="M26 78a24 24 0 0 1 48 0"/></g></svg></template>
+</body>
+</html>

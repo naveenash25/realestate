@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Login / Sign-up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="hifi-assets/image-slot.js"></script>
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<style>
+  body{zoom:0.85}
+  .auth{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;}
+  .auth-side{position:relative;overflow:hidden;background:var(--navy-1);color:#fff;padding:54px;display:flex;flex-direction:column;}
+  .auth-side image-slot{position:absolute;inset:0;width:100%;height:100%;}
+  .auth-side::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(8,20,45,.92),rgba(10,24,55,.62));}
+  .auth-side .as-in{position:relative;z-index:2;display:flex;flex-direction:column;height:100%;}
+  .auth-side .logo .mark{background:rgba(255,255,255,.14)}
+  .auth-side .logo b,.auth-side .logo .sub{color:#fff}
+  .auth-side h2{color:#fff;font-size:34px;font-weight:900;letter-spacing:-.03em;margin-top:auto;}
+  .auth-side h2 .g{color:#3ee07f;display:block}
+  .auth-side ul{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-direction:column;gap:14px;}
+  .auth-side li{display:flex;align-items:center;gap:11px;font-size:15px;color:#e7eefb;font-weight:600;}
+  .auth-side li svg{stroke:#3ee07f;flex:none}
+  .auth-main{display:flex;align-items:center;justify-content:center;padding:40px;}
+  .auth-box{width:100%;max-width:400px;}
+  .auth-box h1{font-size:26px;font-weight:900;letter-spacing:-.03em;}
+  .auth-box .sub{font-size:14px;color:var(--body);margin:8px 0 22px;}
+  .roles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px;}
+  .role{border:1.5px solid var(--line);border-radius:12px;padding:13px 8px;text-align:center;cursor:pointer;font-size:12.5px;font-weight:700;color:var(--body);display:flex;flex-direction:column;align-items:center;gap:7px;}
+  .role.on{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+  .role .ri{width:34px;height:34px;border-radius:10px;background:var(--bg);display:grid;place-items:center;color:var(--blue)}
+  .role.on .ri{background:#fff}
+  .otp{display:flex;gap:10px;justify-content:space-between;}
+  .otp .d{width:52px;height:58px;border:1.5px solid var(--line);border-radius:12px;display:grid;place-items:center;font-size:24px;font-weight:800;color:var(--ink);}
+  .otp .d.f{border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-soft);}
+  .or{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:12.5px;margin:18px 0;}
+  .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line);}
+  .social{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:1080px){.auth{grid-template-columns:1fr}.auth-side{display:none}}
+</style>
+</head>
+<body>
+<div class="auth">
+  <div class="auth-side">
+    <image-slot id="auth-bg" shape="rect" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=1100&q=80&auto=format&fit=crop"></image-slot>
+    <div class="as-in">
+      <a class="logo" href="Owner-Connect-Homepage-HiFi.html"><span class="mark"><svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:#fff;stroke-width:2.2;fill:none"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span><span class="txt"><b>Owner Connect</b><span class="sub">Direct Owner Marketplace</span></span></a>
+      <h2>The trusted way to buy, rent &amp; list<span class="g">— directly with owners.</span></h2>
+      <ul>
+        <li><svg class="ico sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg> 100% verified owners &amp; documents</li>
+        <li><svg class="ico sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg> Zero brokerage, pay only for leads</li>
+        <li><svg class="ico sm" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg> RERA-approved projects &amp; fraud checks</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="auth-main">
+    <div class="auth-box">
+      <div class="tabs" style="margin-bottom:20px"><button class="on">Sign up</button><button>Log in</button></div>
+      <h1>Create your account</h1>
+      <p class="sub">Verify your mobile number to get started. It takes under a minute.</p>
+
+      <div class="lbl" style="margin-bottom:8px">I am a…</div>
+      <div class="roles">
+        <div class="role on"><span class="ri"><svg class="ico" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg></span>Owner</div>
+        <div class="role"><span class="ri"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M5 21a7 7 0 0 1 14 0"/></svg></span>Buyer / Tenant</div>
+        <div class="role"><span class="ri"><svg class="ico" viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 7v10l9 4 9-4V7"/></svg></span>Builder</div>
+      </div>
+
+      <div class="field" style="margin-bottom:14px"><label>Mobile number</label>
+        <div class="ctrl"><span class="t-strong" style="padding-right:10px;border-right:1px solid var(--line)">🇮🇳 +91</span><input placeholder="98765 43210"></div>
+      </div>
+
+      <div class="field" style="margin-bottom:16px"><label>Enter OTP <span class="t-mut" style="font-weight:500">· sent to +91 98765 43210</span></label>
+        <div class="otp"><span class="d f">5</span><span class="d">2</span><span class="d">9</span><span class="d">_</span><span class="d">_</span><span class="d">_</span></div>
+        <div class="row between" style="margin-top:8px"><span class="t-sm t-mut">Resend in 0:24</span><a class="link-arrow" href="#" style="font-size:12.5px">Change number</a></div>
+      </div>
+
+      <a class="btn green block lg" href="OC-04-Owner-Dashboard.html">Verify &amp; Continue</a>
+
+      <div class="or">or continue with</div>
+      <div class="social">
+        <a class="btn ghost" href="#"><svg class="ico sm" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 5v4h-4"/></svg> Google</a>
+        <a class="btn ghost" href="#"><svg class="ico sm" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg> Email</a>
+      </div>
+      <p class="t-sm t-mut" style="text-align:center;margin-top:18px">By continuing you agree to our <a class="g-blue" href="#">Terms</a> &amp; <a class="g-blue" href="#">Privacy Policy</a>.</p>
+    </div>
+  </div>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#1b4fd8"/><g stroke="#fff" stroke-width="5" fill="none" stroke-linecap="round"><rect x="28" y="44" width="44" height="30" rx="4"/><path d="M38 44v-8a12 12 0 0 1 24 0v8"/></g></svg></template>
+</body>
+</html>

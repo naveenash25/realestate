@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Lead Pricing Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .calc{display:grid;grid-template-columns:1fr 1fr;gap:22px;align-items:start}
+  .slider{height:6px;border-radius:999px;background:var(--line);position:relative;margin:14px 0 6px}
+  .slider .fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;background:var(--blue)}
+  .slider .knob{position:absolute;top:50%;width:20px;height:20px;border-radius:50%;background:#fff;border:3px solid var(--blue);transform:translate(-50%,-50%);box-shadow:var(--shadow-sm)}
+  .result{background:linear-gradient(135deg,var(--navy-1),var(--navy-2));color:#fff;border-radius:var(--r);padding:24px;position:sticky;top:84px}
+  .result .big{font-size:42px;font-weight:900;letter-spacing:-.02em;line-height:1}
+  .bd{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:14px}
+  .bd:last-child{border-bottom:0}
+  .compare-card{display:flex;gap:14px;margin-top:18px}
+  .ccol{flex:1;background:#fff;border:1px solid var(--line);border-radius:11px;padding:16px;text-align:center}
+  .ccol.win{border-color:var(--green);background:var(--green-soft)}
+  @media(max-width:1080px){.calc{grid-template-columns:1fr}.result{position:static}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside data-oc-side="owner" data-active="Lead Calculator"></aside>
+  <main class="main">
+    <div class="topbar"><div class="row gap-sm"><svg class="ico" viewBox="0 0 24 24" style="color:var(--blue)"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2"/></svg><span class="t-strong">Estimate your lead costs before you list</span></div></div>
+    <div class="main-in">
+      <div class="page-title"><div><div class="crumb">Owner panel · Calculator</div><h1>Lead Pricing Calculator</h1><p>See your estimated cost per lead and recommended recharge based on your property and city.</p></div></div>
+
+      <div class="calc">
+        <div class="card pad-lg">
+          <div class="sec-head"><h2>Your property</h2></div>
+          <div class="col" style="gap:18px">
+            <div class="field"><label>City</label><div class="ctrl sel"><span>Noida, Uttar Pradesh</span><svg class="ico sm" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div>
+            <div class="field"><label>Property type</label><div class="row gap-sm"><span class="pill on">Apartment</span><span class="pill">Villa</span><span class="pill">Plot</span><span class="pill">Commercial</span></div></div>
+            <div class="field"><label>Listing type</label><div class="row gap-sm"><span class="pill on">Sale</span><span class="pill">Rent</span></div></div>
+            <div>
+              <div class="between"><label style="font-size:12px;font-weight:700;color:var(--ink)">Price band</label><span class="t-strong g-blue">₹50 L – ₹1 Cr</span></div>
+              <div class="slider"><div class="fill" style="width:55%"></div><div class="knob" style="left:55%"></div></div>
+              <div class="row between"><span class="t-sm t-mut">₹10 L</span><span class="t-sm t-mut">₹5 Cr</span></div>
+            </div>
+            <div>
+              <div class="between"><label style="font-size:12px;font-weight:700;color:var(--ink)">Daily lead limit</label><span class="t-strong g-blue">25 / day</span></div>
+              <div class="slider"><div class="fill" style="width:42%"></div><div class="knob" style="left:42%"></div></div>
+              <div class="row between"><span class="t-sm t-mut">5</span><span class="t-sm t-mut">60</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result">
+          <span class="lbl" style="color:#aab9d6">Estimated cost per lead</span>
+          <div class="big">₹120</div>
+          <div class="t-sm" style="color:#cdd8ee;margin-bottom:18px">for 3 BHK apartments in Noida, ₹50L–1Cr</div>
+          <div class="bd"><span style="color:#cdd8ee">Base city rate</span><span>₹90</span></div>
+          <div class="bd"><span style="color:#cdd8ee">Price-band premium</span><span>+ ₹20</span></div>
+          <div class="bd"><span style="color:#cdd8ee">Demand multiplier (high)</span><span>+ ₹10</span></div>
+          <div class="bd"><span style="color:#cdd8ee">Expected leads / month</span><span>~45</span></div>
+          <div class="divider" style="background:rgba(255,255,255,.18)"></div>
+          <div class="bd" style="font-size:16px"><span>Recommended recharge</span><span style="font-weight:900;color:#6fe3a0">₹5,400</span></div>
+          <a class="btn green block lg" href="OC-09-Payment-Plans.html" style="margin-top:16px">Recharge &amp; start listing</a>
+        </div>
+      </div>
+
+      <div class="card pad-lg" style="margin-top:22px">
+        <div class="sec-head"><h2>vs. traditional brokerage</h2></div>
+        <div class="compare-card">
+          <div class="ccol"><div class="lbl">Broker (typical)</div><div class="h-lg g-red" style="margin:8px 0">₹2.1 L</div><div class="t-sm t-mut">2% of ₹85L sale value, paid on closing</div></div>
+          <div class="ccol win"><div class="lbl">Owner Connect</div><div class="h-lg g-green" style="margin:8px 0">₹5,400</div><div class="t-sm t-mut">Pay-per-lead, ~45 leads — no closing fee</div></div>
+        </div>
+        <div class="alert ok" style="margin-top:16px"><svg class="ico" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><div><b>You save ~₹2 L</b> versus paying brokerage — and you only pay for genuine, verified leads.</div></div>
+      </div>
+    </div>
+  </main>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0b1730"/><g stroke="#6fe3a0" stroke-width="5" fill="none" stroke-linecap="round"><rect x="30" y="24" width="40" height="52" rx="5"/><path d="M38 38h24M38 50h8M54 50h8M38 62h8"/></g></svg></template>
+</body>
+</html>

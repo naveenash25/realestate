@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Saved</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="hifi-assets/image-slot.js"></script>
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .saved-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .ssearch-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .ssearch{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-sm)}
+  @media(max-width:1080px){.saved-grid,.ssearch-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside data-oc-side="buyer" data-active="Saved"></aside>
+  <main class="main">
+    <div class="topbar"><div class="search"><svg class="ico" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg> Search saved…</div><a class="btn ghost sm" href="OC-15-Compare.html" style="margin-left:auto"><svg class="ico sm" viewBox="0 0 24 24"><rect x="3" y="4" width="7" height="16" rx="1"/><rect x="14" y="4" width="7" height="16" rx="1"/></svg> Compare selected</a></div>
+    <div class="main-in">
+      <div class="page-title"><div><div class="crumb">Buyer panel · Saved</div><h1>Saved Properties</h1><p>Your shortlist of verified homes. Toggle price-drop alerts to get notified.</p></div></div>
+
+      <div class="utabs" style="margin-bottom:20px"><a class="on" href="#">Properties · 12</a><a href="#">Saved searches · 3</a></div>
+
+      <div class="saved-grid">
+        <article class="pcard"><div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified</span><span class="tag r">RERA</span></div><div class="heart on">♥</div><image-slot id="sv-1" shape="rect" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=500&q=80&auto=format&fit=crop"></image-slot></div><div class="pbody"><div class="between"><span class="price">₹85 L</span><span class="badge verified" style="font-size:10px">Price ↓ ₹2L</span></div><span class="ptitle">3 BHK · Sector 150</span><div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Noida</div><div class="row between" style="margin-top:2px"><span class="t-sm t-mut">Price-drop alert</span><span class="sw on"></span></div><div class="pbtns"><a class="btn ghost" href="OC-15-Compare.html">Compare</a><a class="btn green" href="OC-02-Property-Listing.html">Contact</a></div></div></article>
+        <article class="pcard"><div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified</span></div><div class="heart on">♥</div><image-slot id="sv-2" shape="rect" src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&q=80&auto=format&fit=crop"></image-slot></div><div class="pbody"><div class="between"><span class="price">₹72.5 L</span></div><span class="ptitle">3 BHK · Sector 137</span><div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Noida</div><div class="row between" style="margin-top:2px"><span class="t-sm t-mut">Price-drop alert</span><span class="sw on"></span></div><div class="pbtns"><a class="btn ghost" href="OC-15-Compare.html">Compare</a><a class="btn green" href="OC-02-Property-Listing.html">Contact</a></div></div></article>
+        <article class="pcard"><div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified</span><span class="tag r">RERA</span></div><div class="heart on">♥</div><image-slot id="sv-3" shape="rect" src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=500&q=80&auto=format&fit=crop"></image-slot></div><div class="pbody"><div class="between"><span class="price">₹1.15 Cr</span><span class="badge warn" style="font-size:10px">Under constr.</span></div><span class="ptitle">3 BHK · Sector 128</span><div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Noida</div><div class="row between" style="margin-top:2px"><span class="t-sm t-mut">Price-drop alert</span><span class="sw"></span></div><div class="pbtns"><a class="btn ghost" href="OC-15-Compare.html">Compare</a><a class="btn green" href="OC-02-Property-Listing.html">Contact</a></div></div></article>
+        <article class="pcard"><div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified</span></div><div class="heart on">♥</div><image-slot id="sv-4" shape="rect" src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=500&q=80&auto=format&fit=crop"></image-slot></div><div class="pbody"><div class="between"><span class="price">₹68 L</span></div><span class="ptitle">3 BHK · Sector 76</span><div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Noida</div><div class="row between" style="margin-top:2px"><span class="t-sm t-mut">Price-drop alert</span><span class="sw on"></span></div><div class="pbtns"><a class="btn ghost" href="OC-15-Compare.html">Compare</a><a class="btn green" href="OC-02-Property-Listing.html">Contact</a></div></div></article>
+        <article class="pcard"><div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified</span></div><div class="heart on">♥</div><image-slot id="sv-5" shape="rect" src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=500&q=80&auto=format&fit=crop"></image-slot></div><div class="pbody"><div class="between"><span class="price">₹2.45 Cr</span></div><span class="ptitle">4 BHK Villa · Whitefield</span><div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Bangalore</div><div class="row between" style="margin-top:2px"><span class="t-sm t-mut">Price-drop alert</span><span class="sw"></span></div><div class="pbtns"><a class="btn ghost" href="OC-15-Compare.html">Compare</a><a class="btn green" href="OC-02-Property-Listing.html">Contact</a></div></div></article>
+        <article class="pcard"><div class="media"><div class="tags"><span class="tag v"><svg class="ico sm" viewBox="0 0 24 24" style="width:11px;height:11px"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg> Verified</span></div><div class="heart on">♥</div><image-slot id="sv-6" shape="rect" src="https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?w=500&q=80&auto=format&fit=crop"></image-slot></div><div class="pbody"><div class="between"><span class="price">₹48 L</span></div><span class="ptitle">Residential Plot · 1200 sq yd</span><div class="pmeta"><svg class="ico sm" viewBox="0 0 24 24"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Yamuna Expy</div><div class="row between" style="margin-top:2px"><span class="t-sm t-mut">Price-drop alert</span><span class="sw on"></span></div><div class="pbtns"><a class="btn ghost" href="OC-15-Compare.html">Compare</a><a class="btn green" href="OC-02-Property-Listing.html">Contact</a></div></div></article>
+      </div>
+
+      <h2 class="h-md" style="margin:30px 0 14px">Saved searches</h2>
+      <div class="ssearch-grid">
+        <div class="ssearch"><div class="between"><span class="t-strong">3 BHK · Noida</span><span class="sw on"></span></div><div class="t-sm t-mut" style="margin:6px 0">₹50 L – ₹1 Cr · Verified only</div><span class="badge verified">4 new this week</span></div>
+        <div class="ssearch"><div class="between"><span class="t-strong">Plots · Greater Noida</span><span class="sw on"></span></div><div class="t-sm t-mut" style="margin:6px 0">Up to ₹60 L · Freehold</div><span class="badge grey">No new</span></div>
+        <div class="ssearch"><div class="between"><span class="t-strong">Villa · Whitefield</span><span class="sw"></span></div><div class="t-sm t-mut" style="margin:6px 0">₹2 Cr+ · RERA approved</div><span class="badge warn">Alerts off</span></div>
+      </div>
+    </div>
+  </main>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0b1730"/><g stroke="#6fe3a0" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M50 72S26 58 26 42a12 12 0 0 1 24-6 12 12 0 0 1 24 6c0 16-24 30-24 30z"/></g></svg></template>
+</body>
+</html>

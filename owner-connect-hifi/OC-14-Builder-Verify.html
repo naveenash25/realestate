@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Builder / Developer Verification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .blayout{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .form-grid .full{grid-column:1/-1}
+  .doc-card{border:1.5px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:9px}
+  .doc-card.done{border-color:#bfe6cd;background:var(--green-soft)}
+  .drop{border:1.5px dashed var(--line);border-radius:10px;padding:14px;text-align:center;color:var(--muted);font-size:12.5px;cursor:pointer;background:var(--bg)}
+  .filechip{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 11px}
+  .proj-row{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line-2)}
+  .proj-row:last-child{border-bottom:0}
+  @media(max-width:1080px){.blayout{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside data-oc-side="admin" data-active="Builder Verify"></aside>
+  <main class="main">
+    <div class="topbar"><a class="link-arrow" href="OC-07-Admin-Dashboard.html"><svg class="ico sm" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to queue</a><div class="row gap-sm" style="margin-left:auto"><span class="t-sm t-mut">Builder · Verge Builders Pvt Ltd</span><span class="badge warn"><span class="dot"></span>In review</span></div></div>
+    <div class="main-in">
+      <div class="page-title"><div><div class="crumb">Admin · Builder verification</div><h1>Builder / Developer Verification</h1><p>Verify company registration and RERA credentials before publishing developer projects.</p></div></div>
+
+      <div class="blayout">
+        <div class="col" style="gap:20px">
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Company details</h2></div>
+            <div class="form-grid">
+              <div class="field full"><label>Registered company name</label><div class="ctrl"><input value="Verge Builders Pvt Ltd"></div></div>
+              <div class="field"><label>CIN</label><div class="ctrl"><input value="U70100UP2016PTC084213"></div></div>
+              <div class="field"><label>GSTIN</label><div class="ctrl"><input value="09AABCV1234F1Z5"></div></div>
+              <div class="field"><label>Authorized signatory</label><div class="ctrl"><input value="Sanjay Verma (Director)"></div></div>
+              <div class="field"><label>Years active</label><div class="ctrl"><input value="9 years"></div></div>
+            </div>
+          </div>
+
+          <div class="card pad-lg">
+            <div class="between" style="margin-bottom:6px"><h2 class="h-md">Statutory documents</h2><span class="badge info">Required for verification</span></div>
+            <p class="t-sm" style="margin:0 0 16px">Builder accounts require company &amp; project-level credentials. PDF / JPG · max 10 MB each.</p>
+            <div class="grid g2" style="gap:14px">
+              <div class="doc-card done"><div class="between"><span class="t-strong">RERA Certificate *</span><span class="badge verified"><span class="dot"></span>Uploaded</span></div><span class="t-sm">UPRERAPRJ12345 · valid to 2027</span><div class="filechip"><span class="row gap-sm"><span class="badge grey">PDF</span> rera-cert.pdf</span><span class="g-red" style="cursor:pointer">✕</span></div></div>
+              <div class="doc-card done"><div class="between"><span class="t-strong">GST Certificate *</span><span class="badge verified"><span class="dot"></span>Uploaded</span></div><span class="t-sm">09AABCV1234F1Z5</span><div class="filechip"><span class="row gap-sm"><span class="badge grey">PDF</span> gst.pdf</span><span class="g-red" style="cursor:pointer">✕</span></div></div>
+              <div class="doc-card"><div class="between"><span class="t-strong">CIN / Incorporation *</span><span class="badge grey">Pending</span></div><span class="t-sm">Certificate of incorporation</span><div class="drop"><svg class="ico" viewBox="0 0 24 24" style="margin:0 auto 4px;color:var(--blue)"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 20h14"/></svg>Drag &amp; drop or <span class="g-blue">browse</span></div></div>
+              <div class="doc-card"><div class="between"><span class="t-strong">Signatory authorization *</span><span class="badge grey">Pending</span></div><span class="t-sm">Board resolution / authority letter</span><div class="drop"><svg class="ico" viewBox="0 0 24 24" style="margin:0 auto 4px;color:var(--blue)"><path d="M12 16V4M7 9l5-5 5 5"/><path d="M5 20h14"/></svg>Drag &amp; drop or <span class="g-blue">browse</span></div></div>
+            </div>
+          </div>
+
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Associated projects</h2><span class="badge">3 projects</span></div>
+            <div class="proj-row"><div class="grow"><div class="t-strong">Verge Grand City — Sector 150</div><div class="t-sm t-mut">RERA: UPRERAPRJ12345 · 240 units</div></div><span class="badge verified">RERA verified</span></div>
+            <div class="proj-row"><div class="grow"><div class="t-strong">Verge Heights — Sector 128</div><div class="t-sm t-mut">RERA: UPRERAPRJ19872 · 180 units</div></div><span class="badge verified">RERA verified</span></div>
+            <div class="proj-row"><div class="grow"><div class="t-strong">Verge Square (commercial)</div><div class="t-sm t-mut">RERA application pending</div></div><span class="badge warn">Pending</span></div>
+          </div>
+        </div>
+
+        <div class="col" style="gap:20px">
+          <div class="card pad-lg">
+            <div class="lbl" style="margin-bottom:10px">Verification checklist</div>
+            <div class="row gap-sm" style="padding:7px 0"><span class="g-green">✓</span> Company name matches CIN</div>
+            <div class="row gap-sm" style="padding:7px 0"><span class="g-green">✓</span> GSTIN active</div>
+            <div class="row gap-sm" style="padding:7px 0"><span class="g-green">✓</span> RERA registration valid</div>
+            <div class="row gap-sm" style="padding:7px 0"><span class="g-amber">●</span> CIN document pending</div>
+            <div class="row gap-sm" style="padding:7px 0"><span class="g-amber">●</span> Signatory authority pending</div>
+          </div>
+
+          <div class="alert ok"><svg class="ico" viewBox="0 0 24 24"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/></svg><div><b>RERA &amp; GST validated</b> against government registries automatically.</div></div>
+
+          <div class="card pad-lg">
+            <div class="lbl" style="margin-bottom:8px">Decision</div>
+            <div class="ctrl area" style="min-height:70px">RERA + GST verified. Awaiting CIN &amp; signatory docs before granting Verified Developer badge.</div>
+            <div class="col gap-sm" style="margin-top:12px"><a class="btn green block" href="OC-07-Admin-Dashboard.html">Grant Verified Developer badge</a><a class="btn ghost block" href="#">Request missing documents</a><a class="btn danger block" href="#">Reject</a></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0b1730"/><g stroke="#6fe3a0" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M30 76V34l20-12 20 12v42"/><path d="M42 76V58h16v18"/></g></svg></template>
+</body>
+</html>

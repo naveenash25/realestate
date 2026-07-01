@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Owner Connect — Schedule a Visit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="hifi-assets/image-slot.js"></script>
+<link rel="stylesheet" href="hifi-assets/oc.css">
+<script src="hifi-assets/oc-chrome.js"></script>
+<style>
+  .vlayout{display:grid;grid-template-columns:1fr 340px;gap:22px;align-items:start}
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .cal .dow{text-align:center;font-size:11px;font-weight:700;color:var(--muted);padding:6px 0}
+  .cal .day{aspect-ratio:1;border-radius:10px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer}
+  .cal .day.mut{color:var(--muted);opacity:.5}
+  .cal .day.on{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .cal .day.has{border-color:var(--blue);color:var(--blue)}
+  .slots{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .slot{border:1.5px solid var(--line);border-radius:10px;padding:11px;text-align:center;font-size:13px;font-weight:700;color:var(--ink);cursor:pointer}
+  .slot.on{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
+  .slot.off{color:var(--muted);background:var(--bg);cursor:not-allowed;text-decoration:line-through}
+  .summary{position:sticky;top:84px}
+  .prop-card{display:flex;gap:12px;padding:14px;background:var(--bg);border-radius:12px}
+  .prop-card .th{width:64px;height:50px;border-radius:9px;overflow:hidden;flex:none}
+  .prop-card image-slot{width:100%;height:100%}
+  @media(max-width:1080px){.vlayout{grid-template-columns:1fr}.summary{position:static}.slots{grid-template-columns:repeat(3,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside data-oc-side="buyer" data-active="Visits"></aside>
+  <main class="main">
+    <div class="topbar"><a class="link-arrow" href="OC-02-Property-Listing.html"><svg class="ico sm" viewBox="0 0 24 24"><path d="M19 12H5M11 18l-6-6 6-6"/></svg> Back to property</a></div>
+    <div class="main-in">
+      <div class="page-title"><div><div class="crumb">Buyer panel · Visits</div><h1>Schedule a Visit</h1><p>Pick a date and slot that suits the verified owner. You'll both get a confirmation.</p></div></div>
+
+      <div class="vlayout">
+        <div class="col" style="gap:20px">
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Visit type</h2></div>
+            <div class="grid g2" style="gap:12px">
+              <div class="opt on"><span class="rb"></span><div><div class="t-strong">In-person visit</div><div class="t-sm t-mut">Tour the property with the owner</div></div></div>
+              <div class="opt"><span class="rb"></span><div><div class="t-strong">Video tour</div><div class="t-sm t-mut">Live walkthrough over video call</div></div></div>
+            </div>
+          </div>
+
+          <div class="card pad-lg">
+            <div class="between" style="margin-bottom:14px"><h2 class="h-md">June 2026</h2><div class="row gap-sm"><span class="icon-btn sm"><svg class="ico sm" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></span><span class="icon-btn sm"><svg class="ico sm" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span></div></div>
+            <div class="cal">
+              <div class="dow">S</div><div class="dow">M</div><div class="dow">T</div><div class="dow">W</div><div class="dow">T</div><div class="dow">F</div><div class="dow">S</div>
+              <div class="day mut">1</div><div class="day mut">2</div><div class="day mut">3</div><div class="day mut">4</div><div class="day mut">5</div><div class="day mut">6</div><div class="day mut">7</div>
+              <div class="day mut">8</div><div class="day mut">9</div><div class="day mut">10</div><div class="day mut">11</div><div class="day has">12</div><div class="day has">13</div><div class="day on">14</div>
+              <div class="day has">15</div><div class="day has">16</div><div class="day">17</div><div class="day">18</div><div class="day">19</div><div class="day has">20</div><div class="day has">21</div>
+              <div class="day">22</div><div class="day">23</div><div class="day">24</div><div class="day">25</div><div class="day">26</div><div class="day">27</div><div class="day">28</div>
+              <div class="day">29</div><div class="day">30</div>
+            </div>
+          </div>
+
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Available slots · Sat 14 Jun</h2></div>
+            <div class="slots">
+              <div class="slot off">9:00</div><div class="slot off">10:00</div><div class="slot on">11:00</div><div class="slot">12:00</div>
+              <div class="slot">3:00</div><div class="slot">4:00</div><div class="slot">5:00</div><div class="slot off">6:00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary">
+          <div class="card pad-lg">
+            <div class="sec-head"><h2>Visit summary</h2></div>
+            <div class="prop-card"><span class="th"><image-slot id="sv-prop" shape="rect" src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=200&q=80&auto=format&fit=crop"></image-slot></span><div><div class="t-strong">3 BHK, Sector 150</div><div class="t-sm g-blue" style="font-weight:700">₹85 L</div><span class="badge verified" style="font-size:10px;margin-top:4px">Verified owner</span></div></div>
+            <div class="divider"></div>
+            <div class="row between" style="padding:6px 0"><span class="t-mut">Owner</span><span class="t-strong">Rajesh Kumar</span></div>
+            <div class="row between" style="padding:6px 0"><span class="t-mut">Type</span><span class="t-strong">In-person</span></div>
+            <div class="row between" style="padding:6px 0"><span class="t-mut">Date</span><span class="t-strong">Sat, 14 Jun</span></div>
+            <div class="row between" style="padding:6px 0"><span class="t-mut">Time</span><span class="t-strong">11:00 AM</span></div>
+            <div class="field" style="margin:12px 0"><label>Note to owner (optional)</label><div class="ctrl area" style="min-height:60px">Looking forward to seeing the flat…</div></div>
+            <a class="btn green block lg" href="OC-18-Buyer-Dashboard.html">Confirm visit</a>
+            <p class="t-sm t-mut" style="text-align:center;margin:10px 0 0">You can reschedule or cancel anytime from your dashboard.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<template id="__bundler_thumbnail"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="#0b1730"/><g stroke="#6fe3a0" stroke-width="5" fill="none" stroke-linecap="round"><rect x="24" y="28" width="52" height="46" rx="5"/><path d="M24 40h52M38 22v10M62 22v10"/></g></svg></template>
+</body>
+</html>
