@@ -35,9 +35,15 @@ export class PropertiesService {
     const dataSql = `
       SELECT p.id, p.title, p.city, p.state, p.location_tier, p.property_type,
              p.rera_status, p.price_value, p.buffer_leads_used, p.created_at,
-             p.cover_image
+             cover.url AS cover_image
       FROM properties p
       JOIN owners o ON o.id = p.owner_id
+      LEFT JOIN LATERAL (
+        SELECT url FROM property_media pm
+        WHERE pm.property_id = p.id AND pm.type = 'image'
+        ORDER BY pm.sort_order ASC
+        LIMIT 1
+      ) cover ON true
       WHERE ${conditions.join(' AND ')}
       ORDER BY p.created_at DESC
       LIMIT $${i++} OFFSET $${i++}

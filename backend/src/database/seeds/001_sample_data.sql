@@ -437,45 +437,38 @@ ON CONFLICT (id) DO NOTHING;
 -- ─────────────────────────────────────────────────────────────
 -- 10. COVER IMAGES — Unsplash placeholders for dev
 --     These are reliable public CDN URLs; swap for GCS in prod.
+--     Stored as sort_order=0 rows in property_media (properties has no cover_image column).
 -- ─────────────────────────────────────────────────────────────
-UPDATE properties SET cover_image = CASE id
+INSERT INTO property_media (property_id, type, url, sort_order)
+SELECT v.property_id::uuid, 'image', v.url, 0
+FROM (VALUES
   -- Hyderabad
-  WHEN 'c1000000-0000-4000-8000-000000000001' THEN 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80&auto=format&fit=crop'
-  WHEN 'c2000000-0000-4000-8000-000000000002' THEN 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80&auto=format&fit=crop'
-  WHEN 'c3000000-0000-4000-8000-000000000003' THEN 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80&auto=format&fit=crop'
-  WHEN 'c4000000-0000-4000-8000-000000000004' THEN 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80&auto=format&fit=crop'
-  WHEN 'c5000000-0000-4000-8000-000000000005' THEN 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80&auto=format&fit=crop'
+  ('c1000000-0000-4000-8000-000000000001', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80&auto=format&fit=crop'),
+  ('c2000000-0000-4000-8000-000000000002', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80&auto=format&fit=crop'),
+  ('c3000000-0000-4000-8000-000000000003', 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80&auto=format&fit=crop'),
+  ('c4000000-0000-4000-8000-000000000004', 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80&auto=format&fit=crop'),
+  ('c5000000-0000-4000-8000-000000000005', 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80&auto=format&fit=crop'),
   -- Pune
-  WHEN 'c6000000-0000-4000-8000-000000000006' THEN 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80&auto=format&fit=crop'
-  WHEN 'c7000000-0000-4000-8000-000000000007' THEN 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80&auto=format&fit=crop'
-  WHEN 'c8000000-0000-4000-8000-000000000008' THEN 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80&auto=format&fit=crop'
-  WHEN 'c9000000-0000-4000-8000-000000000009' THEN 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop'
-  WHEN 'ca000000-0000-4000-8000-00000000000a' THEN 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80&auto=format&fit=crop'
+  ('c6000000-0000-4000-8000-000000000006', 'https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80&auto=format&fit=crop'),
+  ('c7000000-0000-4000-8000-000000000007', 'https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?w=800&q=80&auto=format&fit=crop'),
+  ('c8000000-0000-4000-8000-000000000008', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80&auto=format&fit=crop'),
+  ('c9000000-0000-4000-8000-000000000009', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop'),
+  ('ca000000-0000-4000-8000-00000000000a', 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80&auto=format&fit=crop'),
   -- Jaipur
-  WHEN 'cb000000-0000-4000-8000-00000000000b' THEN 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80&auto=format&fit=crop'
-  WHEN 'cc000000-0000-4000-8000-00000000000c' THEN 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop'
-  WHEN 'cd000000-0000-4000-8000-00000000000d' THEN 'https://images.unsplash.com/photo-1561134643-668f9057cce4?w=800&q=80&auto=format&fit=crop'
-  WHEN 'ce000000-0000-4000-8000-00000000000e' THEN 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80&auto=format&fit=crop'
-  WHEN 'cf000000-0000-4000-8000-00000000000f' THEN 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80&auto=format&fit=crop'
+  ('cb000000-0000-4000-8000-00000000000b', 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80&auto=format&fit=crop'),
+  ('cc000000-0000-4000-8000-00000000000c', 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format&fit=crop'),
+  ('cd000000-0000-4000-8000-00000000000d', 'https://images.unsplash.com/photo-1561134643-668f9057cce4?w=800&q=80&auto=format&fit=crop'),
+  ('ce000000-0000-4000-8000-00000000000e', 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80&auto=format&fit=crop'),
+  ('cf000000-0000-4000-8000-00000000000f', 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80&auto=format&fit=crop'),
   -- Coimbatore
-  WHEN 'd1000000-0000-4000-8000-000000000010' THEN 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80&auto=format&fit=crop'
-  WHEN 'd2000000-0000-4000-8000-000000000011' THEN 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80&auto=format&fit=crop'
-  WHEN 'd3000000-0000-4000-8000-000000000012' THEN 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80&auto=format&fit=crop'
-  WHEN 'd4000000-0000-4000-8000-000000000013' THEN 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop'
-  WHEN 'd5000000-0000-4000-8000-000000000014' THEN 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80&auto=format&fit=crop'
-  ELSE cover_image
-END
-WHERE id IN (
-  'c1000000-0000-4000-8000-000000000001','c2000000-0000-4000-8000-000000000002',
-  'c3000000-0000-4000-8000-000000000003','c4000000-0000-4000-8000-000000000004',
-  'c5000000-0000-4000-8000-000000000005','c6000000-0000-4000-8000-000000000006',
-  'c7000000-0000-4000-8000-000000000007','c8000000-0000-4000-8000-000000000008',
-  'c9000000-0000-4000-8000-000000000009','ca000000-0000-4000-8000-00000000000a',
-  'cb000000-0000-4000-8000-00000000000b','cc000000-0000-4000-8000-00000000000c',
-  'cd000000-0000-4000-8000-00000000000d','ce000000-0000-4000-8000-00000000000e',
-  'cf000000-0000-4000-8000-00000000000f','d1000000-0000-4000-8000-000000000010',
-  'd2000000-0000-4000-8000-000000000011','d3000000-0000-4000-8000-000000000012',
-  'd4000000-0000-4000-8000-000000000013','d5000000-0000-4000-8000-000000000014'
+  ('d1000000-0000-4000-8000-000000000010', 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80&auto=format&fit=crop'),
+  ('d2000000-0000-4000-8000-000000000011', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&q=80&auto=format&fit=crop'),
+  ('d3000000-0000-4000-8000-000000000012', 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=80&auto=format&fit=crop'),
+  ('d4000000-0000-4000-8000-000000000013', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80&auto=format&fit=crop'),
+  ('d5000000-0000-4000-8000-000000000014', 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80&auto=format&fit=crop')
+) AS v(property_id, url)
+WHERE NOT EXISTS (
+  SELECT 1 FROM property_media pm WHERE pm.property_id = v.property_id::uuid AND pm.sort_order = 0
 );
 
 -- ─────────────────────────────────────────────────────────────

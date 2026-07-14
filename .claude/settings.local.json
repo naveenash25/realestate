@@ -10,7 +10,26 @@
       "Bash(npm run *)",
       "Bash(npx tsc *)",
       "PowerShell(Set-Location \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\backend\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"Set-Location 'c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\backend'; npm run start:dev\" -WindowStyle Normal)",
-      "PowerShell(Set-Location \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\frontend\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"Set-Location 'c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\frontend'; npm run dev\" -WindowStyle Normal)"
+      "PowerShell(Set-Location \"c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\frontend\"; Start-Process powershell -ArgumentList \"-NoExit\", \"-Command\", \"Set-Location 'c:\\\\Users\\\\satti.naveen\\\\Documents\\\\realestate\\\\frontend'; npm run dev\" -WindowStyle Normal)",
+      "Skill(run)",
+      "Skill(run:*)",
+      "PowerShell(Get-ChildItem -Path .claude\\\\skills -ErrorAction SilentlyContinue -Recurse -Filter SKILL.md | ForEach-Object { Write-Output $_.FullName; Get-Content $_.FullName -TotalCount 5 })",
+      "PowerShell(Test-NetConnection -ComputerName localhost -Port 6379 -WarningAction SilentlyContinue)",
+      "PowerShell(Test-NetConnection -ComputerName localhost -Port 5432 -WarningAction SilentlyContinue)",
+      "PowerShell(docker run -d --name realestate-redis -p 6379:6379 redis:7-alpine)",
+      "PowerShell(docker exec postgres psql -U postgres -c \"CREATE DATABASE realestate;\")",
+      "PowerShell(docker exec postgres psql -U postgres -d realestate -c \"CREATE EXTENSION IF NOT EXISTS vector;\")",
+      "PowerShell(docker exec postgres bash -c \"apt-get update -qq && apt-get install -y -qq postgresql-16-pgvector 2>&1 | tail -20\")",
+      "PowerShell(docker exec -i postgres psql -U postgres -d realestate 2>&1)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:8080/api/v1/properties\" -UseBasicParsing)",
+      "PowerShell(Invoke-WebRequest -Uri \"http://localhost:3001\" -UseBasicParsing)",
+      "PowerShell($r = Invoke-WebRequest -Uri \"http://localhost:8080/api/v1/properties\" -UseBasicParsing; $r.StatusCode; $r.Content | ConvertFrom-Json | ConvertTo-Json -Depth 4 | Select-Object -First 40)",
+      "PowerShell(\\(Invoke-WebRequest -Uri \"http://localhost:3001\" -UseBasicParsing\\).StatusCode)",
+      "PowerShell(echo \"NODE_ENV=[$env:NODE_ENV]\")",
+      "PowerShell(node scripts\\\\test-apis.js 2>&1)",
+      "PowerShell(docker exec postgres psql -U postgres -d realestate -c \"UPDATE owners SET wallet_balance = 8761.00, buffer_leads_used = 0 WHERE id = 'a1000000-0000-4000-8000-000000000001'; UPDATE properties SET buffer_leads_used = 0 WHERE owner_id = 'a1000000-0000-4000-8000-000000000001';\")",
+      "PowerShell(docker exec postgres psql -U postgres -d realestate -c \"DELETE FROM enquiries WHERE buyer_phone = '+919876500000'; DELETE FROM wallet_transactions WHERE description = 'Lead charge' AND owner_id = 'a1000000-0000-4000-8000-000000000001' AND created_at > NOW\\(\\) - INTERVAL '1 hour';\")",
+      "PowerShell(docker exec postgres psql -U postgres -d realestate -c \"UPDATE owners SET wallet_balance = 8761.00 WHERE id = 'a1000000-0000-4000-8000-000000000001'; UPDATE properties SET buffer_leads_used = 0 WHERE owner_id = 'a1000000-0000-4000-8000-000000000001';\")"
     ]
   }
 }
