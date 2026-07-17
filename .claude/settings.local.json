@@ -56,7 +56,18 @@
       "PowerShell(try { $r = Invoke-WebRequest -Uri \"http://localhost:3001/dashboard\" -UseBasicParsing -TimeoutSec 45; \"dashboard: $\\($r.StatusCode\\)\" } catch { \"dashboard FAILED: $_\" })",
       "PowerShell(docker exec -i postgres psql -U postgres -d realestate)",
       "PowerShell(docker exec postgres psql -U postgres -d realestate -c \"SELECT column_name FROM information_schema.columns WHERE table_name='properties' AND column_name IN \\('listing_type','listed_by','bedrooms'\\);\" 2>&1)",
-      "PowerShell(.\\\\node_modules\\\\.bin\\\\tsc.cmd --noEmit)"
+      "PowerShell(.\\\\node_modules\\\\.bin\\\\tsc.cmd --noEmit)",
+      "PowerShell(npm approve-scripts --allow-scripts-pending 2>&1)",
+      "PowerShell(npm approve-scripts chromedriver edgedriver \"@nightwatch/nightwatch-inspector\" 2>&1)",
+      "PowerShell(npm install 2>&1)",
+      "PowerShell(npm install edgedriver --no-save 2>&1)",
+      "PowerShell(node node_modules\\\\edgedriver\\\\dist\\\\cli.js 2>&1)",
+      "PowerShell(npx nightwatch 2>&1)",
+      "PowerShell(npm uninstall edgedriver)",
+      "PowerShell(npm install -D edgedriver)",
+      "PowerShell(node node_modules\\\\edgedriver\\\\dist\\\\install.js 2>&1)",
+      "PowerShell(node download-edgedriver.mjs)",
+      "PowerShell(docker exec postgres psql -U postgres -d realestate -c \"DELETE FROM properties WHERE title LIKE 'E2E Test Property%';\")"
     ]
   }
 }

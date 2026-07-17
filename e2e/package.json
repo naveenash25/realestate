@@ -1,0 +1,22 @@
+{
+  "name": "realestate-e2e",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Nightwatch.js UI automation tests for the realestate app",
+  "scripts": {
+    "postinstall": "node scripts/setup-edgedriver.mjs",
+    "test": "nightwatch",
+    "test:headed": "nightwatch --env headed",
+    "test:chrome": "nightwatch --env chrome"
+  },
+  "devDependencies": {
+    "chromedriver": "^131.0.0",
+    "edgedriver": "^6.3.0",
+    "nightwatch": "^3.9.4"
+  },
+  "allowScripts": {
+    "@nightwatch/nightwatch-inspector@1.0.1": true,
+    "chromedriver@131.0.5": true,
+    "edgedriver@6.3.0": true
+  }
+}
