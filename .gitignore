@@ -26,6 +26,9 @@ yarn-error.log*
 *serviceaccount*.json
 *service-account*.json
 
+# Local dev file storage (STORAGE_DRIVER=local)
+backend/uploads/
+
 # OS
 .DS_Store
 Thumbs.db

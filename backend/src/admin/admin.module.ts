@@ -2,10 +2,11 @@ import { Module } from '@nestjs/common';
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
 import { RolesGuard } from '../auth/roles.guard';
-import { UploadService } from '../properties/upload.service';
+import { PropertiesModule } from '../properties/properties.module';
 
 @Module({
+  imports: [PropertiesModule],
   controllers: [AdminController],
-  providers: [AdminService, RolesGuard, UploadService],
+  providers: [AdminService, RolesGuard],
 })
 export class AdminModule {}
