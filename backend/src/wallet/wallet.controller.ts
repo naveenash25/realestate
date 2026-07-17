@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, UseGuards, Request, Headers, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+  Headers,
+  Req,
+} from '@nestjs/common';
 import type { RawBodyRequest } from '@nestjs/common';
 import { WalletService } from './wallet.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -25,6 +34,6 @@ export class WalletController {
     @Headers('x-razorpay-signature') signature: string,
     @Req() req: RawBodyRequest<any>,
   ) {
-    return this.walletService.handleWebhook(signature, req.rawBody!);
+    return this.walletService.handleWebhook(signature, req.rawBody);
   }
 }

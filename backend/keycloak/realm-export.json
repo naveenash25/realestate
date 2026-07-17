@@ -1,0 +1,38 @@
+{
+  "realm": "realestate",
+  "enabled": true,
+  "sslRequired": "external",
+  "clients": [
+    {
+      "clientId": "realestate-backend",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": false,
+      "secret": "${env.KEYCLOAK_BACKEND_CLIENT_SECRET}",
+      "redirectUris": [
+        "http://localhost:8080/api/v1/auth/google/callback"
+      ],
+      "webOrigins": []
+    }
+  ],
+  "identityProviders": [
+    {
+      "alias": "google",
+      "providerId": "google",
+      "enabled": true,
+      "trustEmail": true,
+      "storeToken": false,
+      "addReadTokenRoleOnCreate": false,
+      "firstBrokerLoginFlowAlias": "first broker login",
+      "config": {
+        "clientId": "${env.GOOGLE_OAUTH_CLIENT_ID}",
+        "clientSecret": "${env.GOOGLE_OAUTH_CLIENT_SECRET}",
+        "syncMode": "IMPORT",
+        "useJwksUrl": "true"
+      }
+    }
+  ]
+}

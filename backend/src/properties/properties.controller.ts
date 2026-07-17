@@ -1,5 +1,21 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Query, UseGuards, Request, UploadedFiles, UseInterceptors, ParseFilePipe, MaxFileSizeValidator, FileTypeValidator } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  Query,
+  UseGuards,
+  Request,
+  UploadedFiles,
+  UseInterceptors,
+  ParseFilePipe,
+  MaxFileSizeValidator,
+  FileTypeValidator,
+} from '@nestjs/common';
+import { FilesInterceptor, FileFieldsInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { PropertiesService } from './properties.service';
 import { UploadService } from './upload.service';
@@ -39,7 +55,11 @@ export class PropertiesController {
 
   @UseGuards(JwtAuthGuard)
   @Put(':id')
-  update(@Param('id') id: string, @Request() req: any, @Body() dto: Partial<CreatePropertyDto>) {
+  update(
+    @Param('id') id: string,
+    @Request() req: any,
+    @Body() dto: Partial<CreatePropertyDto>,
+  ) {
     return this.propertiesService.update(id, req.user.id, dto);
   }
 
@@ -56,14 +76,19 @@ export class PropertiesController {
   async uploadImages(
     @Param('id') id: string,
     @Request() req: any,
-    @UploadedFiles(new ParseFilePipe({
-      validators: [
-        new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
-        new FileTypeValidator({ fileType: /image\/(jpeg|png|webp)/ }),
-      ],
-    })) files: Express.Multer.File[],
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
+          new FileTypeValidator({ fileType: /image\/(jpeg|png|webp)/ }),
+        ],
+      }),
+    )
+    files: Express.Multer.File[],
   ) {
-    const urls = await Promise.all(files.map(f => this.uploadService.uploadImage(f)));
+    const urls = await Promise.all(
+      files.map((f) => this.uploadService.uploadImage(f)),
+    );
     const media = urls.map((url, i) => ({ type: 'image', url, sort_order: i }));
     return this.propertiesService.addMedia(id, req.user.id, media);
   }
@@ -74,9 +99,62 @@ export class PropertiesController {
   addVideos(
     @Param('id') id: string,
     @Request() req: any,
-    @Body() body: { videos: { type: 'instagram_reel' | 'youtube'; url: string }[] },
+    @Body()
+    body: { videos: { type: 'instagram_reel' | 'youtube'; url: string }[] },
   ) {
     const media = body.videos.map((v, i) => ({ ...v, sort_order: i }));
     return this.propertiesService.addMedia(id, req.user.id, media);
+  }
+
+  // Ownership documents (sale deed, encumbrance certificate, Aadhaar/PAN, tax
+  // receipt) — uploaded independently per document type from the Add Property
+  // wizard's Documents step. Max 10MB each, images or PDF.
+  @UseGuards(JwtAuthGuard)
+  @Post(':id/documents')
+  @UseInterceptors(
+    FileFieldsInterceptor(
+      [
+        { name: 'ownership_deed', maxCount: 1 },
+        { name: 'encumbrance_certificate', maxCount: 1 },
+        { name: 'identity_proof', maxCount: 1 },
+        { name: 'tax_receipt', maxCount: 1 },
+      ],
+      { storage: memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } },
+    ),
+  )
+  async uploadDocuments(
+    @Param('id') id: string,
+    @Request() req: any,
+    @UploadedFiles() files: Record<string, Express.Multer.File[]>,
+  ) {
+    const results: unknown[] = [];
+    for (const [type, [file]] of Object.entries(files || {})) {
+      const uploaded = await this.uploadService.uploadDocument(file, id);
+      const doc = await this.propertiesService.upsertDocument(id, req.user.id, type, uploaded);
+      results.push(doc);
+    }
+    return results;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id/documents')
+  async listDocuments(@Param('id') id: string, @Request() req: any) {
+    const docs = await this.propertiesService.listDocuments(id, req.user.id);
+    return Promise.all(
+      docs.map(async (doc: any) => ({
+        ...doc,
+        url: await this.uploadService.getSignedReadUrl(doc.file_path),
+      })),
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id/documents/:type')
+  removeDocument(
+    @Param('id') id: string,
+    @Param('type') type: string,
+    @Request() req: any,
+  ) {
+    return this.propertiesService.removeDocument(id, req.user.id, type);
   }
 }

@@ -31,7 +31,7 @@ All services run as Docker containers on **GCP Cloud Run** — serverless, scale
 
 **Key responsibilities:**
 - Server-side render property pages for Google indexing
-- Google OAuth + Mobile OTP login flow (via Supabase Auth client)
+- Google OAuth (redirect to backend, which brokers via Keycloak) + Mobile OTP (Twilio WhatsApp, verified by backend)
 - Real-time lead notifications on owner dashboard via Socket.io client
 - GTM / Meta Pixel event firing on key user actions
 
@@ -45,7 +45,7 @@ All services run as Docker containers on **GCP Cloud Run** — serverless, scale
 
 ```
 AppModule
-├── AuthModule          — JWT validation, Supabase Auth integration
+├── AuthModule          — Keycloak (Google OAuth) + Twilio WhatsApp (OTP) adapters; mints app session JWT
 ├── UsersModule         — user profiles, role management
 ├── OwnersModule        — owner verification, wallet balance
 ├── PropertiesModule    — CRUD, search, visibility logic
@@ -183,6 +183,12 @@ is_active           BOOLEAN DEFAULT true
 buffer_leads_used   INT DEFAULT 0       -- resets on each recharge
 daily_lead_cap      INT DEFAULT 10
 embedding           VECTOR(1536) NULLABLE  -- pgvector, Phase 2
+listing_type        ENUM('sale','rent') DEFAULT 'sale'
+listed_by           ENUM('individual','builder') DEFAULT 'individual'
+bedrooms            INT NULLABLE
+bathrooms           INT NULLABLE
+area_sqft           NUMERIC(10,2) NULLABLE
+project_name        TEXT NULLABLE
 created_at          TIMESTAMPTZ
 updated_at          TIMESTAMPTZ
 ```
@@ -196,6 +202,23 @@ url           TEXT
 sort_order    INT
 created_at    TIMESTAMPTZ
 ```
+
+### `property_documents`
+```sql
+id              UUID PRIMARY KEY
+property_id     UUID REFERENCES properties(id)
+type            ENUM('ownership_deed','encumbrance_certificate','identity_proof','tax_receipt')
+file_path       TEXT   -- private GCS object path, never a public URL
+original_name   TEXT
+mime_type       TEXT
+size_bytes      INT
+status          ENUM('pending','verified','rejected') DEFAULT 'pending'
+verified_at     TIMESTAMPTZ NULLABLE
+verified_by     UUID NULLABLE REFERENCES users(id)
+created_at      TIMESTAMPTZ
+UNIQUE(property_id, type)   -- one row per document type per property; re-upload is an upsert
+```
+Reads go through a fresh 15-minute signed GCS URL minted on request (`UploadService.getSignedReadUrl`), never a stored public link — these are ownership/identity documents (Aadhaar/PAN, sale deed), not property photos. Verification is currently owner-level only (see `owners.is_verified` cascade below); per-document admin review is not yet built — uploaded documents sit at `status='pending'`.
 
 ### `lead_pricing`
 ```sql
@@ -290,10 +313,12 @@ Phase 1: PostgreSQL full-text search + indexed filters (`location_tier`, `proper
 Phase 2: If query performance degrades at scale, add Typesense or Elasticsearch with a sync worker.
 
 ### Auth flow
-- Supabase Auth handles Google OAuth + Phone OTP token issuance
-- JWT token sent with every API request
-- NestJS `AuthGuard` validates JWT with Supabase public key (no DB call per request)
-- Role stored in JWT custom claim, also in `users.role`
+- Keycloak (self-hosted) brokers Google OAuth only — backend-initiated redirect (`kc_idp_hint=google` skips Keycloak's own login form); backend exchanges the code and reads Keycloak's userinfo endpoint (no local JWT verification of third-party tokens)
+- Twilio WhatsApp sends OTP codes; the backend's own Redis-backed `OtpService` generates/hashes/verifies them — Keycloak is not involved in phone login
+- Either path succeeds → `SessionService` mints the app's own JWT (HS256, `SESSION_JWT_SECRET`)
+- NestJS `JwtAuthGuard`/`JwtStrategy` validate only this app-issued JWT — no third-party JWKS call per request
+- Role is always re-read from `users.role` per request; the JWT's role claim is a hint only, never trusted alone
+- Ports-and-adapters boundary (`IdentityBrokerProvider`, `OtpSenderProvider`) means swapping Keycloak or Twilio for another vendor later only touches an adapter class, not the guards, DB, or frontend
 
 ---
 
@@ -308,6 +333,9 @@ GET    /api/v1/properties           — Search/list (public)
 GET    /api/v1/properties/:id       — Property detail (public)
 POST   /api/v1/properties           — Create listing (owner)
 PUT    /api/v1/properties/:id       — Update listing (owner)
+POST   /api/v1/properties/:id/documents         — Upload ownership documents (owner)
+GET    /api/v1/properties/:id/documents         — List documents with fresh signed URLs (owner)
+DELETE /api/v1/properties/:id/documents/:type   — Remove a document (owner)
 
 POST   /api/v1/enquiries            — Submit enquiry (buyer, auth required)
 GET    /api/v1/enquiries            — Owner's received leads (owner)
@@ -347,10 +375,25 @@ DATABASE_URL=postgres://...
 # Redis
 REDIS_URL=redis://...
 
-# Auth (Supabase)
-SUPABASE_URL=
-SUPABASE_SERVICE_KEY=
-SUPABASE_JWT_SECRET=
+# Auth (Keycloak — Google OAuth brokering)
+BACKEND_URL=
+FRONTEND_URL=
+KEYCLOAK_BASE_URL=
+KEYCLOAK_REALM=
+KEYCLOAK_BACKEND_CLIENT_ID=
+KEYCLOAK_BACKEND_CLIENT_SECRET=
+GOOGLE_OAUTH_CLIENT_ID=
+GOOGLE_OAUTH_CLIENT_SECRET=
+
+# Auth (Twilio WhatsApp — OTP send only)
+TWILIO_ACCOUNT_SID=
+TWILIO_AUTH_TOKEN=
+TWILIO_WHATSAPP_FROM=
+TWILIO_OTP_CONTENT_SID=
+
+# App session (own JWT)
+SESSION_JWT_SECRET=
+SESSION_JWT_TTL_SECONDS=
 
 # Payments
 RAZORPAY_KEY_ID=

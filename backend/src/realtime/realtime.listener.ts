@@ -7,7 +7,12 @@ export class RealtimeListener {
   constructor(private leadsGateway: LeadsGateway) {}
 
   @OnEvent('lead.created')
-  handleLeadCreated(payload: { enquiry: any; owner_id: string; buyer_name: string; buyer_phone: string }) {
+  handleLeadCreated(payload: {
+    enquiry: any;
+    owner_id: string;
+    buyer_name: string;
+    buyer_phone: string;
+  }) {
     this.leadsGateway.notifyOwner(payload.owner_id, {
       enquiry_id: payload.enquiry.id,
       buyer_name: payload.buyer_name,

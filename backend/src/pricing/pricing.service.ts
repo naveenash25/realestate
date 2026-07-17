@@ -6,7 +6,9 @@ export class PricingService {
   constructor(private dataSource: DataSource) {}
 
   getMatrix() {
-    return this.dataSource.query(`SELECT * FROM lead_pricing ORDER BY location_tier, property_type, rera_status`);
+    return this.dataSource.query(
+      `SELECT * FROM lead_pricing ORDER BY location_tier, property_type, rera_status`,
+    );
   }
 
   getPrice(locationTier: string, propertyType: string, reraStatus: string) {

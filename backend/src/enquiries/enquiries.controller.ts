@@ -1,4 +1,11 @@
-import { Controller, Post, Get, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Body,
+  UseGuards,
+  Request,
+} from '@nestjs/common';
 import { EnquiriesService } from './enquiries.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CreateEnquiryDto } from './dto/create-enquiry.dto';

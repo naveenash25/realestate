@@ -43,7 +43,8 @@ export class WalletService {
       .update(rawBody)
       .digest('hex');
 
-    if (signature !== expected) throw new BadRequestException('Invalid webhook signature');
+    if (signature !== expected)
+      throw new BadRequestException('Invalid webhook signature');
 
     const event = JSON.parse(rawBody.toString());
     if (event.event === 'payment.captured') {

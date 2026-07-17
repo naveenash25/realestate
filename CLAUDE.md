@@ -82,7 +82,7 @@ Each module owns its DB tables. Cross-module calls go through service injection,
 
 | Module | Owns |
 |---|---|
-| `AuthModule` | JWT validation, Supabase Auth integration |
+| `AuthModule` | Keycloak (Google OAuth) + Twilio WhatsApp (OTP) adapters, app session JWT minting/validation |
 | `OwnersModule` | `owners` table, wallet balance |
 | `PropertiesModule` | `properties`, `property_media` tables |
 | `EnquiriesModule` | `enquiries` table, orchestrates wallet deduction |
@@ -98,7 +98,7 @@ All backend routes: `/api/v1/`. When breaking changes are needed, add `/api/v2/`
 
 ## Auth Pattern
 
-Supabase Auth issues JWTs. NestJS `JwtAuthGuard` validates against Supabase public key — no DB call per request. Role comes from JWT custom claim (`role`) and is double-checked against `users.role` for sensitive operations.
+Keycloak (self-hosted, docker-compose) brokers Google OAuth only — backend-initiated redirect, `kc_idp_hint=google`. Twilio WhatsApp delivers OTP codes; the backend's own Redis-backed `OtpService` verifies them (Keycloak is not involved in phone login). Either path succeeds → `SessionService` mints the app's own JWT (`SESSION_JWT_SECRET`, HS256). `JwtAuthGuard`/`JwtStrategy` validate only this app-issued JWT — no third-party JWKS call per request. Role always comes from `users.role` in Postgres, re-checked on every request, never trusted from the JWT alone. Both providers sit behind swappable ports (`IdentityBrokerProvider`, `OtpSenderProvider`) so a future provider change only touches an adapter class.
 
 ## Environment Variables
 

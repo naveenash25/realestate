@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { DataSource } from 'typeorm';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { CreateEnquiryDto } from './dto/create-enquiry.dto';
@@ -27,14 +31,25 @@ export class EnquiriesService {
         [dto.property_id],
       );
 
-      if (!property[0]) throw new NotFoundException('Property not found or inactive');
+      if (!property[0])
+        throw new NotFoundException('Property not found or inactive');
 
-      const { owner_id, wallet_balance, buffer_leads_used, daily_lead_cap,
-              location_tier, property_type, rera_status, owner_phone } = property[0];
+      const {
+        owner_id,
+        wallet_balance,
+        buffer_leads_used,
+        daily_lead_cap,
+        location_tier,
+        property_type,
+        rera_status,
+        owner_phone,
+      } = property[0];
 
       // Enforce wallet visibility rule: hidden when wallet=0 and buffer exhausted
       if (parseFloat(wallet_balance) === 0 && buffer_leads_used >= 3) {
-        throw new BadRequestException('This property is temporarily unavailable. Owner needs to recharge.');
+        throw new BadRequestException(
+          'This property is temporarily unavailable. Owner needs to recharge.',
+        );
       }
 
       // Check daily cap using persistent counter table
@@ -45,7 +60,9 @@ export class EnquiriesService {
       );
       const todayCount = capRow[0]?.leads_count || 0;
       if (todayCount >= daily_lead_cap) {
-        throw new BadRequestException('Daily enquiry cap reached for this property. Try again tomorrow.');
+        throw new BadRequestException(
+          'Daily enquiry cap reached for this property. Try again tomorrow.',
+        );
       }
 
       // Fetch lead price
@@ -54,7 +71,10 @@ export class EnquiriesService {
          WHERE location_tier = $1 AND property_type = $2 AND rera_status = $3`,
         [location_tier, property_type, rera_status],
       );
-      if (!pricing[0]) throw new BadRequestException('Lead pricing not configured for this property type');
+      if (!pricing[0])
+        throw new BadRequestException(
+          'Lead pricing not configured for this property type',
+        );
 
       const leadPrice = parseFloat(pricing[0].price);
       const gst = parseFloat((leadPrice * 0.18).toFixed(2));
@@ -88,7 +108,9 @@ export class EnquiriesService {
           [dto.property_id],
         );
       } else {
-        throw new BadRequestException('Wallet balance insufficient. Please recharge to receive leads.');
+        throw new BadRequestException(
+          'Wallet balance insufficient. Please recharge to receive leads.',
+        );
       }
 
       // Upsert daily lead counter
@@ -104,8 +126,17 @@ export class EnquiriesService {
         `INSERT INTO enquiries (property_id, owner_id, buyer_id, buyer_phone, buyer_name,
                                 lead_price, gst_amount, total_charged, is_buffer_lead)
          VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
-        [dto.property_id, owner_id, buyerId, dto.buyer_phone, dto.buyer_name,
-         leadPrice, gst, totalCharge, isBufferLead],
+        [
+          dto.property_id,
+          owner_id,
+          buyerId,
+          dto.buyer_phone,
+          dto.buyer_name,
+          leadPrice,
+          gst,
+          totalCharge,
+          isBufferLead,
+        ],
       );
 
       await queryRunner.commitTransaction();

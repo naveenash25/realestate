@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Put, Param, Body, UseGuards, UploadedFile, UseInterceptors } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Param,
+  Body,
+  UseGuards,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { AdminService } from './admin.service';
@@ -66,12 +76,19 @@ export class AdminController {
   ) {
     let id_document_url: string | undefined;
     if (file) id_document_url = await this.uploadService.uploadImage(file);
-    return this.adminService.mtRegisterOwner({ full_name: fullName, phone, id_document_url });
+    return this.adminService.mtRegisterOwner({
+      full_name: fullName,
+      phone,
+      id_document_url,
+    });
   }
 
   @Roles('admin', 'mt')
   @Post('mt/owners/:id/properties')
-  mtCreateProperty(@Param('id') ownerId: string, @Body() dto: CreatePropertyDto) {
+  mtCreateProperty(
+    @Param('id') ownerId: string,
+    @Body() dto: CreatePropertyDto,
+  ) {
     return this.adminService.mtCreateProperty(ownerId, dto);
   }
 }

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Exercises every backend route against a running dev server (see .claude/skills/run-app).
 // Uses the NODE_ENV=development X-Dev-User auth bypass (backend/src/auth/jwt-auth.guard.ts) —
-// no real Supabase JWTs needed. Safe to re-run: fixtures it creates are cleaned up at the end.
+// no real session JWT needed for these calls. Safe to re-run: fixtures it creates are cleaned up at the end.
 //
 // Usage: npm run test:api   (from backend/), or: node scripts/test-apis.js
 // Requires the backend dev server to already be running (see run-app skill).
@@ -67,18 +67,20 @@ async function main() {
     record('GET /pricing', 'orphaned', false, r.status === 200 && r.json?.length === 54, `status=${r.status} rows=${r.json?.length} — no /pricing page in frontend, dead from UI's perspective`);
   }
 
-  // ── Auth endpoints — frontend never calls these (uses supabase-js client directly) ──
+  // ── Auth endpoints ───────────────────────────────────────────────
   {
     const r = await call('POST', '/auth/otp/send', { body: { phone: '+919999999999' } });
-    record('POST /auth/otp/send', 'orphaned+external-dep', false, r.status >= 400, `status=${r.status} — unused by UI; needs real Supabase project`);
+    record('POST /auth/otp/send', 'core+external-dep', true, r.status >= 400, `status=${r.status} — needs real Twilio credentials (placeholder in .env) to actually send`);
   }
   {
-    const r = await call('POST', '/auth/otp/verify', { body: { phone: '+919999999999', token: '123456' } });
-    record('POST /auth/otp/verify', 'orphaned+external-dep', false, r.status >= 400, `status=${r.status} — unused by UI; needs real Supabase project`);
+    const r = await call('POST', '/auth/otp/verify', { body: { phone: '+919999999999', code: '123456' } });
+    record('POST /auth/otp/verify', 'core', true, r.status === 401, `status=${r.status} (expect 401 — no OTP was ever sent for this number)`);
   }
   {
-    const r = await call('POST', '/auth/google', { body: { access_token: 'fake' } });
-    record('POST /auth/google', 'orphaned+external-dep', false, r.status >= 400, `status=${r.status} — unused by UI; needs real Supabase project`);
+    // GET redirect to Keycloak's authorize URL — don't follow it (Keycloak may not be running in this env)
+    const r = await fetch(`${BASE}/auth/google?redirect=%2F`, { redirect: 'manual' });
+    const location = r.headers.get('location') || '';
+    record('GET /auth/google', 'core', true, r.status === 302 && location.includes('/protocol/openid-connect/auth'), `status=${r.status} location=${location.slice(0, 80)}`);
   }
 
   // ── Owner (a1) ─────────────────────────────────────────────────
@@ -153,16 +155,12 @@ async function main() {
   }
 
   // ── owners/register ─────────────────────────────────────────────
-  // NOTE: owners.service.ts register() calls supabase.auth.admin.updateUserById()
-  // but never checks its {error} return value — so against the placeholder Supabase
-  // project in .env, this call silently fails and the endpoint still reports success.
-  // That's a real bug (swallowed error), but it means the endpoint itself "passes" here.
   {
     const r = await call('POST', '/owners/register', { devUser: DEV.buyer3, body: { full_name: 'Test API Owner' } });
     psql(`DELETE FROM owners WHERE id = '${DEV.buyer3}'`); // cascades not needed; just this fixture row
     psql(`UPDATE users SET role = 'buyer' WHERE id = '${DEV.buyer3}'`);
     record('POST /owners/register', 'core', true, r.status === 200 || r.status === 201,
-      `status=${r.status} — BUG: supabase.auth.admin.updateUserById() error is never checked (owners.service.ts), so this "succeeds" even with the placeholder Supabase project; DB fixture cleaned up`);
+      `status=${r.status} — DB fixture cleaned up`);
   }
 
   // ── Admin ──────────────────────────────────────────────────────
@@ -191,7 +189,7 @@ async function main() {
   }
   {
     // No pending owner exists in seed data — create a disposable one directly in the DB
-    // (bypassing owners/register, which needs real Supabase) to exercise the verify endpoint.
+    // to exercise the verify endpoint.
     const fixtureId = 'aaaaaaaa-0000-4000-8000-0000000000f1';
     psql(`INSERT INTO users (id, phone, role) VALUES ('${fixtureId}', '+919999888877', 'owner') ON CONFLICT (id) DO NOTHING`);
     psql(`INSERT INTO owners (id, full_name, is_verified) VALUES ('${fixtureId}', 'API Test Pending Owner', false) ON CONFLICT (id) DO NOTHING`);
@@ -206,8 +204,9 @@ async function main() {
   }
   {
     const r = await call('POST', '/admin/mt/owners', { devUser: DEV.admin, body: { full_name: 'Test MT Owner', phone: '+919999777766' } });
-    const leftover = psql(`SELECT id FROM users WHERE phone = '+919999777766'`);
-    record('POST /admin/mt/owners', 'external-dep', true, r.status >= 400 && !leftover, `status=${r.status} — needs real Supabase project; correctly wrote nothing to DB before failing (leftover=${!!leftover})`);
+    const createdId = psql(`SELECT id FROM users WHERE phone = '+919999777766'`);
+    if (createdId) psql(`DELETE FROM users WHERE id = '${createdId}'`); // cascades to owners
+    record('POST /admin/mt/owners', 'core', true, (r.status === 200 || r.status === 201) && !!createdId, `status=${r.status} owner_id=${r.json?.owner_id} — DB fixture cleaned up`);
   }
   let mtPropertyId = null;
   {
